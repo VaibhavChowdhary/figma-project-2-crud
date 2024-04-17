@@ -5,14 +5,15 @@ import CustomTypo from "./CustomTypo";
 export default function CustomButton({
   onClick,
   children,
+  type,
   ...rest
 }) {
   return (
     <>
       <Button
         onClick={onClick}
+        type={type ? type : 'button'}
         sx={{
-        
           borderRadius: "4px",
           height: "44px",
           maxWidth: "415px",
