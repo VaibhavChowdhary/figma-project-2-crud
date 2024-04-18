@@ -1,5 +1,5 @@
 import { Box, Button, Icon, List, ListItem, ListItemIcon, ListItemText } from '@mui/material'
-import React from 'react'
+import React, { useContext } from 'react'
 import CustomTypo from "../CustomComponents/CustomTypo";
 import homeIcon from "../assets/home.png"
 import courseIcon from "../assets/courseIcon.png"
@@ -9,6 +9,7 @@ import reportIcon from "../assets/reportIcon.png"
 import settingIcon from "../assets/settingIcon.png"
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { SomeContext } from '../context/context';
 
 export default function Sidebar() {
     const name = "Vaibhav G C";
@@ -28,9 +29,12 @@ export default function Sidebar() {
         console.log(index)
     }
 
+    const xyz = useContext(SomeContext);
+    console.log(xyz.openSidebar)
+
     return (
         <>
-            <Box sx={{ width: "270px", height: "100vh", backgroundColor: "#F2EAE1", display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <Box sx={{ width: "270px", height: "100vh", backgroundColor: "#F2EAE1", display: xyz.openSidebar ? "none" : "flex", flexDirection: "column", alignItems: "center" }}>
                 <Box sx={{ textAlign: "center", marginTop: "18px" }}>
                     <span style={{ fontWeight: "bold", fontSize: "20px", borderLeft: "4px solid #F8D442", paddingLeft: "12.5px", textShadow: "1px 4px px lightgrey" }}>
                         CRUD OPERATIONS
@@ -56,7 +60,7 @@ export default function Sidebar() {
                         <List>
                             {options.map((item, index) => (
                                 <React.Fragment key={index}>
-                                    <ListItem button sx={{ backgroundColor: index === 0 ? "#FEAF00" : "", width: "193px", height: "41px", borderRadius: "4px", display: "flex", justifyContent: "center" }} onClick={() => handleButtonClick(index)}>
+                                    <ListItem button sx={{ backgroundColor: index === 0 ? "#FEAF00" : "", width: "193px", height: "41px", borderRadius: "4px", display: "flex", justifyContent: "start", paddingLeft: "41px" }} onClick={() => handleButtonClick(index)}>
                                         <img src={item.icon} alt='option' style={{ paddingRight: "15px" }} />
                                         <CustomTypo fontSize="14px" color="#000000" fontWeight="600" >
                                             {item.text}
