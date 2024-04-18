@@ -6,14 +6,18 @@ import CustomTextfield from '../CustomComponents/CustomTextfield'
 import SearchIcon from '@mui/icons-material/Search';
 
 export default function Header() {
+    const handleClick =()=>{
+        console.log("hello")
+    }
     return (
         <>
             <Box sx={{ flexGrow: 1 }}>
-                <AppBar sx={{ width: "1170px", height: "60px", backgroundColor: "red",boxShadow:"none" }}>
+                <AppBar sx={{ width: "1170px", height: "60px", backgroundColor: "#FFFFFF", boxShadow: "none" }}>
                     <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
                         <Box>
 
                             <IconButton
+                            onClick={handleClick}
                                 edge="start"
                                 color="#C4C4C4"
                                 sx={{ mr: 2 }}
