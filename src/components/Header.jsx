@@ -13,11 +13,10 @@ export default function Header() {
     }
     return (
         <>
-            <Box sx={{ flexGrow: 1 }}>
-                <AppBar sx={{ width: xyz.openSidebar ? "100%" : "1170px", height: "60px", backgroundColor: "#FFFFFF", boxShadow: "none" }}>
+            <Box>
+                <AppBar sx={{  maxWidth: xyz.openSidebar ? "100%" : `calc(100% - 270px)`, height: "60px", backgroundColor: "#FFFFFF", boxShadow: "none",}}>
                     <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
                         <Box>
-
                             <IconButton
                                 onClick={handleClick}
                                 edge="start"

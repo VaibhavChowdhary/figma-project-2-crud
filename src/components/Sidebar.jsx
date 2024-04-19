@@ -1,5 +1,5 @@
 import { Box, Button, Icon, List, ListItem, ListItemIcon, ListItemText } from '@mui/material'
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import CustomTypo from "../CustomComponents/CustomTypo";
 import homeIcon from "../assets/home.png"
 import courseIcon from "../assets/courseIcon.png"
@@ -8,25 +8,25 @@ import paymentIcon from "../assets/paymentIcon.png"
 import reportIcon from "../assets/reportIcon.png"
 import settingIcon from "../assets/settingIcon.png"
 import LogoutIcon from '@mui/icons-material/Logout';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { SomeContext } from '../context/context';
 
 export default function Sidebar() {
+    const [activeIndex, setActiveIndex] = useState(0)
     const name = "Vaibhav G C";
     const admin = "Admin";
     const navigate = useNavigate()
     const options = [
-        { icon: homeIcon, text: 'Home' },
-        { icon: courseIcon, text: 'Course' },
-        { icon: studentsIcon, text: 'Students' },
-        { icon: paymentIcon, text: 'Payment' },
-        { icon: reportIcon, text: 'Report' },
-        { icon: settingIcon, text: 'Settings' },
-
+        { icon: homeIcon, text: 'Home', link: "home" },
+        { icon: courseIcon, text: 'Course', link: "course" },
+        { icon: studentsIcon, text: 'Students', link: "students" },
+        { icon: paymentIcon, text: 'Payment', link: "payments" },
+        { icon: reportIcon, text: 'Report', link: "report" },
+        { icon: settingIcon, text: 'Settings', link: "settings" },
     ];
 
     const handleButtonClick = (index) => {
-        console.log(index)
+        setActiveIndex(index);
     }
 
     const xyz = useContext(SomeContext);
@@ -60,12 +60,14 @@ export default function Sidebar() {
                         <List>
                             {options.map((item, index) => (
                                 <React.Fragment key={index}>
-                                    <ListItem button sx={{ backgroundColor: index === 0 ? "#FEAF00" : "", width: "193px", height: "41px", borderRadius: "4px", display: "flex", justifyContent: "start", paddingLeft: "41px" }} onClick={() => handleButtonClick(index)}>
-                                        <img src={item.icon} alt='option' style={{ paddingRight: "15px" }} />
-                                        <CustomTypo fontSize="14px" color="#000000" fontWeight="600" >
-                                            {item.text}
-                                        </CustomTypo>
-                                    </ListItem>
+                                    <Link to={`${item.link}`} style={{ textDecoration: "none", fontSize: "14px", color: "#000000", fontWeight: "600" }} >
+                                        <ListItem button sx={{ backgroundColor: index === activeIndex ? "#FEAF00" : "", width: "193px", height: "41px", borderRadius: "4px", display: "flex", justifyContent: "start", paddingLeft: "41px" }} onClick={() => handleButtonClick(index)}>
+                                            <img src={item.icon} alt='option' style={{ paddingRight: "15px" }} />
+                                            <CustomTypo >
+                                                {item.text}
+                                            </CustomTypo>
+                                        </ListItem>
+                                    </Link>
                                 </React.Fragment>
                             ))}
                         </List>
