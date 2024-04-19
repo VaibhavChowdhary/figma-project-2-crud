@@ -24,7 +24,7 @@ export default function Payment() {
                     <img src={filter} alt='filter' width="14px" height="19.25px" />
                 </Box>
                 <Divider sx={{ color: "#E5E5E5", marginTop: "20px", marginBottom: "18px" }} />
-                <Table sx={{ minWidth: "1300px" }} aria-label="simple table">
+                <Table sx={{ minWidth: "1300px" }}>
                     <TableHead>
                         <TableRow>
                             <TableCell sx={{ border: "none" }}>
