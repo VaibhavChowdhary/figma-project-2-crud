@@ -16,7 +16,6 @@ export default function Dashboard() {
                 <SomeContext.Provider value={{ openSidebar, setOpenSidebar }}>
                     <Sidebar />
                     <Header />
-                </SomeContext.Provider>
                 <Box sx={{ height: "50vh", width: openSidebar ? "100vw" : "80vw", display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <Routes>
                         <Route path='/home' element={<Home />} />
@@ -27,6 +26,7 @@ export default function Dashboard() {
                         <Route path='/settings' element={<h1>Settings</h1>} />
                     </Routes >
                 </Box>
+                </SomeContext.Provider>
             </Box>
         </>
     )

@@ -8,13 +8,14 @@ import { SomeContext } from '../context/context'
 
 export default function Header() {
     const xyz = useContext(SomeContext);
+
     const handleClick = () => {
         xyz.setOpenSidebar(!xyz.openSidebar);
     }
     return (
         <>
             <Box>
-                <AppBar sx={{  maxWidth: xyz.openSidebar ? "100%" : `calc(100% - 270px)`, height: "60px", backgroundColor: "#FFFFFF", boxShadow: "none",}}>
+                <AppBar sx={{ maxWidth: xyz.openSidebar ? "100%" : `calc(100% - 270px)`, height: "60px", backgroundColor: "#FFFFFF", boxShadow: "none", }}>
                     <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
                         <Box>
                             <IconButton

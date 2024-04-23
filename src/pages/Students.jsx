@@ -1,5 +1,5 @@
 import { Box, Divider } from '@mui/material'
-import React from 'react'
+import React, { useContext } from 'react'
 import CustomTypo from '../CustomComponents/CustomTypo'
 import filter from "../assets/filter.png"
 import CustomButton from "../CustomComponents/CustomButton"
@@ -10,9 +10,12 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import editIcon from "../assets/edit.png";
 import deleteIcon from "../assets/deleteIcon.png";
+import { SomeContext } from '../context/context'
+
 
 
 export default function Students() {
+    const xyz = useContext(SomeContext);
     const rows = [
         { name: "vaibhav", email: "vaibhav@gmail.com", phone: "1234567890", enrollNo: "1234567305477760", dateOfAdmission: "8 Dec, 2021" },
         { name: "vaibhav", email: "vaibhav@gmail.com", phone: "1234567890", enrollNo: "1234567305477760", dateOfAdmission: "8 Dec, 2021" },
@@ -20,22 +23,27 @@ export default function Students() {
     ]
     return (
         <>
-            <Box sx={{ width: "100%", padding: "20px 30px 59px 30px" }}>
+            <Box sx={{ width: xyz.openSidebar ? "100%" : `calc(100% - 270px)`, padding: "20px 30px 59px 30px" }}>
                 <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                    <CustomTypo fontWeight="bold" fontSize="22px" color="#000000">
-                        Students List
-                    </CustomTypo>
-                    <Box SX={{ display: "flex", justifyContent: "space-between", gap: 2 }}>
-                        <img src={filter} alt='filter' width="14px" height="19.25px" />
-                        <CustomButton fontSize="14px" color="#FFFFFF" padding="13px 27px 14px 26px">
+                    <Box>
+                        <CustomTypo fontWeight="bold" fontSize="22px" color="#000000">
+                            Students List
+                        </CustomTypo>
+                    </Box>
+                    <Box SX={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                        <img src={filter} alt='filter' width="14px" height="19.25px" style={{marginRight:"11px"}}/>
+                        <CustomButton fontSize="14px" color="#FFFFFF" padding="13px 27px 14px 26px" backgroundColor="#FEAF00">
                             ADD NEW STUDENT
                         </CustomButton>
                     </Box>
                 </Box>
                 <Divider sx={{ color: "#E5E5E5", marginTop: "20px", marginBottom: "18px" }} />
-                <Table sx={{ minWidth: "1300px" }}>
+                <Table sx={{ minWidth: xyz.openSidebar ? "100%" : `calc(100% - 240px)` }}>
                     <TableHead>
                         <TableRow sx={{ borderRadius: "8px" }}>
+                            <TableCell sx={{ border: "none" }}>
+
+                            </TableCell>
                             <TableCell sx={{ border: "none" }}>
                                 <CustomTypo color="#ACACAC" fontSize="12px" >
                                     Name
@@ -69,6 +77,9 @@ export default function Students() {
                                 key={index}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 }, backgroundColor: "#FFFFFF" }}
                             >
+                                <TableCell sx={{ border: "none" }}>
+                                    <img src="https://wallpapers.com/images/high/cartoon-profile-pictures-7snemqada9e47jj4.webp" style={{ borderRadius: "8px" }} alt="profile pic" width="65px" height="55px" />
+                                </TableCell>
                                 <TableCell sx={{ border: "none" }}>
                                     <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
                                         {row.name}
