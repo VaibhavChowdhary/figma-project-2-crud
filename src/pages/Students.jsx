@@ -36,7 +36,7 @@ export default function Students() {
 
     return (
         <>
-            <Box sx={{ width: xyz.openSidebar ? "WidthFull" : "calc(100%-WidthFull)", padding: "20px 30px 59px 30px" }}>
+            <Box sx={{ width: xyz.openSidebar ? "WidthFull" : "calc(100%-WidthFull)" }}>
                 <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                     <Box>
                         <CustomTypo fontWeight="bold" fontSize="22px" color="#000000">

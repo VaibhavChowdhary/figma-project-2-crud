@@ -42,7 +42,7 @@ export default function Sidebar() {
                 </Box>
                 <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "space-around", alignItems: "center", marginTop: "54px", gap: 1 }}>
                     <Box>
-                        <img src='https://wallpapers.com/images/high/cartoon-profile-pictures-7snemqada9e47jj4.webp' style={{ borderRadius: "50%" }} alt='profile' width="150px" height="150px" />
+                        <img src='https://pics.craiyon.com/2023-12-30/-xDMLsQTSISe2r08bAtHMA.webp' style={{ borderRadius: "50%" }} alt='profile' width="150px" height="150px" />
                     </Box>
                     <Box>
                         <CustomTypo fontSize={17} color="#000000" fontWeight="bold">

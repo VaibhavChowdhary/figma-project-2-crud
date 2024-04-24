@@ -13,7 +13,7 @@ export default function Home() {
 
   return (
     <>
-      <Grid container spacing={1} sx={{ marginLeft: "30px" }}>
+      <Grid container spacing={1} >
         <Grid item xs={12} sm={6} md={3}>
           <CustomDisplayCard image={studentIcon} text="Students" count="243" bgColor="#F0F9FF" height="48px" width="38px" />
         </Grid>

@@ -11,7 +11,7 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    maxWidth: 600,
+    maxWidth: 800,
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
@@ -28,16 +28,14 @@ export default function AddStudent({ openAddStudent, setOpenAddStudent }) {
                 <Modal
                     open={openAddStudent}
                     onClose={handleClose}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
                 >
                     <Box sx={style}>
-                        <Box>
+                        <Box sx={{display:"flex",justifyCoontent:"start",gap:2}}>
                             <CustomTypo fontWeight="bold" fontSize="20px">
                                 Add New Student
                             </CustomTypo>
                             <Divider />
-                            <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+                            <Box sx={{ display: "flex", flexWrap: "wrap",gap:2}}>
                                 <Box>
                                     <CustomTextfield width="300px" height="50px" placeholder="Name" />
                                 </Box>
@@ -54,6 +52,7 @@ export default function AddStudent({ openAddStudent, setOpenAddStudent }) {
                                     <CustomTextfield width="300px" height="50px" placeholder="Date of Admission" type="date" />
                                 </Box>
                             </Box>
+                            <CustomButton
                         </Box>
                     </Box>
                 </Modal>

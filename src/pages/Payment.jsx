@@ -1,9 +1,9 @@
-import { Box, Divider } from '@mui/material'
-import CustomTypo from '../CustomComponents/CustomTypo'
-import filter from "../assets/filter.png"
+import { Box, Divider } from '@mui/material';
+import CustomTypo from '../CustomComponents/CustomTypo';
+import filter from "../assets/filter.png";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import React, { useContext } from 'react'
+import React, { useContext } from 'react';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
@@ -18,7 +18,7 @@ export default function Payment() {
     ]
     return (
         <>
-            <Box sx={{ width: xyz.openSidebar ? "WidthFull" : "calc(100%-WidthFull)", padding: "30px" }}>
+            <Box sx={{ width: xyz.openSidebar ? "WidthFull" : "calc(100%-WidthFull)", }}>
                 <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                     <CustomTypo fontWeight="bold" fontSize="22px" color="#000000">
                         Payment Details
