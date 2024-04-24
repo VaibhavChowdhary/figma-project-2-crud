@@ -1,5 +1,5 @@
 import { Box, Divider } from '@mui/material'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import CustomTypo from '../CustomComponents/CustomTypo'
 import filter from "../assets/filter.png"
 import CustomButton from "../CustomComponents/CustomButton"
@@ -11,16 +11,21 @@ import TableRow from '@mui/material/TableRow';
 import editIcon from "../assets/edit.png";
 import deleteIcon from "../assets/deleteIcon.png";
 import { SomeContext } from '../context/context'
-
-
+import axios from 'axios'
 
 export default function Students() {
     const xyz = useContext(SomeContext);
-    const rows = [
-        { name: "vaibhav", email: "vaibhav@gmail.com", phone: "1234567890", enrollNo: "1234567305477760", dateOfAdmission: "8 Dec, 2021" },
-        { name: "vaibhav", email: "vaibhav@gmail.com", phone: "1234567890", enrollNo: "1234567305477760", dateOfAdmission: "8 Dec, 2021" },
-        { name: "vaibhav", email: "vaibhav@gmail.com", phone: "1234567890", enrollNo: "1234567305477760", dateOfAdmission: "8 Dec, 2021" }
-    ]
+    const [data, setData] = useState([]);
+    useEffect(() => {
+        axios.get('http://localhost:4000/api/data')
+            .then(response => {
+                setData(response.data);
+            })
+            .catch(error => {
+                console.log(error.message);
+            });
+    }, []);
+
     return (
         <>
             <Box sx={{ width: xyz.openSidebar ? "100%" : `calc(100% - 270px)`, padding: "20px 30px 59px 30px" }}>
@@ -31,18 +36,17 @@ export default function Students() {
                         </CustomTypo>
                     </Box>
                     <Box SX={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                        <img src={filter} alt='filter' width="14px" height="19.25px" style={{marginRight:"11px"}}/>
+                        <img src={filter} alt='filter' width="14px" height="19.25px" style={{ marginRight: "11px" }} />
                         <CustomButton fontSize="14px" color="#FFFFFF" padding="13px 27px 14px 26px" backgroundColor="#FEAF00">
                             ADD NEW STUDENT
                         </CustomButton>
                     </Box>
                 </Box>
                 <Divider sx={{ color: "#E5E5E5", marginTop: "20px", marginBottom: "18px" }} />
-                <Table sx={{ minWidth: xyz.openSidebar ? "100%" : `calc(100% - 240px)` }}>
+                <Table sx={{ minWidth: "100%" }}>
                     <TableHead>
                         <TableRow sx={{ borderRadius: "8px" }}>
                             <TableCell sx={{ border: "none" }}>
-
                             </TableCell>
                             <TableCell sx={{ border: "none" }}>
                                 <CustomTypo color="#ACACAC" fontSize="12px" >
@@ -72,7 +76,7 @@ export default function Students() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map((row, index) => (
+                        {data.map((row, index) => (
                             <TableRow
                                 key={index}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 }, backgroundColor: "#FFFFFF" }}
@@ -97,7 +101,7 @@ export default function Students() {
                                 </TableCell>
                                 <TableCell align="left" sx={{ border: "none" }}>
                                     <CustomTypo color="#000000" fontSize="14px" fontWeight="500" >
-                                        {row.enrollNo}
+                                        {row.enrollNumber}
                                     </CustomTypo>
                                 </TableCell>
                                 <TableCell align="left" sx={{ border: "none" }}>

@@ -61,7 +61,11 @@ export default function Sidebar() {
                             {options.map((item, index) => (
                                 <React.Fragment key={index}>
                                     <Link to={`${item.link}`} style={{ textDecoration: "none", fontSize: "14px", color: "#000000", fontWeight: "600" }} >
-                                        <ListItem button sx={{ backgroundColor: index === activeIndex ? "#FEAF00" : "", width: "193px", height: "41px", borderRadius: "4px", display: "flex", justifyContent: "start", paddingLeft: "41px", }} onClick={() => handleButtonClick(index)}
+                                        <ListItem button sx={{
+                                            backgroundColor: index === activeIndex ? "#FEAF00" : "",
+                                            '&:hover': { backgroundColor: '#FEAF00' },
+                                            width: "193px", height: "41px", borderRadius: "4px", display: "flex", justifyContent: "start", paddingLeft: "41px",
+                                        }} onClick={() => handleButtonClick(index)}
                                         >
                                             <img src={item.icon} alt='option' style={{ paddingRight: "15px" }} />
                                             <CustomTypo >

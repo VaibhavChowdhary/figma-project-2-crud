@@ -9,25 +9,25 @@ import Payment from '../pages/Payment';
 import Students from '../pages/Students';
 
 export default function Dashboard() {
-    const [openSidebar, setOpenSidebar] = useState(false);
-    return (
-        <>
-            <Box sx={{ display: 'flex', justifyContent: "start", backgroundColor: "#F8F8F8", height: "100vh" }}>
-                <SomeContext.Provider value={{ openSidebar, setOpenSidebar }}>
-                    <Sidebar />
-                    <Header />
-                <Box sx={{ height: "50vh", width: openSidebar ? "100vw" : "80vw", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    <Routes>
-                        <Route path='/home' element={<Home />} />
-                        <Route path='/course' element={<h1>Course</h1>} />
-                        <Route path='/students' element={<Students />} />
-                        <Route path='/payments' element={<Payment />} />
-                        <Route path='/report' element={<h1>Report</h1>} />
-                        <Route path='/settings' element={<h1>Settings</h1>} />
-                    </Routes >
-                </Box>
-                </SomeContext.Provider>
-            </Box>
-        </>
-    )
+  const [openSidebar, setOpenSidebar] = useState(false);
+  return (
+    <>
+      <Box sx={{ display: 'flex', justifyContent: "start", backgroundColor: "#F8F8F8", height: "100vh",width:"100%" }}>
+        <SomeContext.Provider value={{ openSidebar, setOpenSidebar }}>
+          <Sidebar />
+          <Header />
+          <Box sx={{ display: "flex", justifyContent: "center", alignItems: "start", marginTop: "50px", width:openSidebar ? "100%" : "80%" }}>
+            <Routes>
+              <Route path='/home' element={<Home />} />
+              <Route path='/course' element={<h1>Course</h1>} />
+              <Route path='/students' element={<Students />} />
+              <Route path='/payments' element={<Payment />} />
+              <Route path='/report' element={<h1>Report</h1>} />
+              <Route path='/settings' element={<h1>Settings</h1>} />
+            </Routes >
+          </Box>
+        </SomeContext.Provider>
+      </Box>
+    </>
+  )
 }
