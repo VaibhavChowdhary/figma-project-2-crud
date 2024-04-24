@@ -39,7 +39,7 @@ export default function SignIn() {
     event.preventDefault();
     console.log(emailRef.current.value)
     console.log(passwordRef.current.value)
-    navigate('/dashboard')
+    navigate('/dashboard/home')
   };
 
   return (

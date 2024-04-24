@@ -65,10 +65,11 @@ export default function Sidebar() {
                                             backgroundColor: index === activeIndex ? "#FEAF00" : "",
                                             '&:hover': { backgroundColor: '#FEAF00' },
                                             width: "193px", height: "41px", borderRadius: "4px", display: "flex", justifyContent: "start", paddingLeft: "41px",
+                                            marginBottom: index !== options.length - 1 ? "17px" : "0px",
                                         }} onClick={() => handleButtonClick(index)}
                                         >
                                             <img src={item.icon} alt='option' style={{ paddingRight: "15px" }} />
-                                            <CustomTypo >
+                                            <CustomTypo>
                                                 {item.text}
                                             </CustomTypo>
                                         </ListItem>
