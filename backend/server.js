@@ -1,7 +1,14 @@
 const express = require("express");
 const app = express();
+const cors = require("cors");
 const PORT = 4000;
-
+app.use(
+  cors({
+    origin: ["*"],
+    methods: ["GET", "POST"],
+    
+  })
+);
 const data = [
   {
     id: 1,

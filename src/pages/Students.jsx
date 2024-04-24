@@ -12,12 +12,16 @@ import editIcon from "../assets/edit.png";
 import deleteIcon from "../assets/deleteIcon.png";
 import { SomeContext } from '../context/context'
 import axios from 'axios'
+import AddStudent from '../models/AddStudent'
+import { WidthFull } from '@mui/icons-material'
 
 export default function Students() {
     const xyz = useContext(SomeContext);
     const [data, setData] = useState([]);
+    const [openAddStudent, setOpenAddStudent] = useState(false);
     useEffect(() => {
-        axios.get('http://localhost:4000/api/data')
+        axios.get('https://obscure-succotash-49qgjg69qxxf4x-4000.app.github.dev/api/data'
+        )
             .then(response => {
                 setData(response.data);
             })
@@ -26,9 +30,13 @@ export default function Students() {
             });
     }, []);
 
+    const handleAddStudent = () => {
+        setOpenAddStudent(true);
+    }
+
     return (
         <>
-            <Box sx={{ width: xyz.openSidebar ? "100%" : `calc(100% - 270px)`, padding: "20px 30px 59px 30px" }}>
+            <Box sx={{ width: xyz.openSidebar ? "WidthFull" : "calc(100%-WidthFull)", padding: "20px 30px 59px 30px" }}>
                 <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                     <Box>
                         <CustomTypo fontWeight="bold" fontSize="22px" color="#000000">
@@ -37,7 +45,7 @@ export default function Students() {
                     </Box>
                     <Box SX={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                         <img src={filter} alt='filter' width="14px" height="19.25px" style={{ marginRight: "11px" }} />
-                        <CustomButton fontSize="14px" color="#FFFFFF" padding="13px 27px 14px 26px" backgroundColor="#FEAF00">
+                        <CustomButton fontSize="14px" color="#FFFFFF" padding="13px 27px 14px 26px" backgroundColor="#FEAF00" onClick={handleAddStudent}>
                             ADD NEW STUDENT
                         </CustomButton>
                     </Box>
@@ -120,6 +128,7 @@ export default function Students() {
                     </TableBody>
                 </Table>
             </Box>
+            <AddStudent openAddStudent={openAddStudent} setOpenAddStudent={setOpenAddStudent} />
         </>
     )
 }

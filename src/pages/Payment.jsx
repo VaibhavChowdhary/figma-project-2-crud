@@ -18,7 +18,7 @@ export default function Payment() {
     ]
     return (
         <>
-            <Box sx={{ width: xyz.openSidebar ? "100%" : `calc(100% - 240px)`, padding: "30px" }}>
+            <Box sx={{ width: xyz.openSidebar ? "WidthFull" : "calc(100%-WidthFull)", padding: "30px" }}>
                 <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                     <CustomTypo fontWeight="bold" fontSize="22px" color="#000000">
                         Payment Details

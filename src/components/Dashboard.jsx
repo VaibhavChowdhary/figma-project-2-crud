@@ -12,11 +12,11 @@ export default function Dashboard() {
   const [openSidebar, setOpenSidebar] = useState(false);
   return (
     <>
-      <Box sx={{ display: 'flex', justifyContent: "start", backgroundColor: "#F8F8F8", height: "100vh",width:"100%" }}>
+      <Box sx={{ display: 'flex', justifyContent: "start", backgroundColor: "#F8F8F8", height: "100vh", width: "100%" }}>
         <SomeContext.Provider value={{ openSidebar, setOpenSidebar }}>
           <Sidebar />
           <Header />
-          <Box sx={{ display: "flex", justifyContent: "center", alignItems: "start", marginTop: "50px", width:openSidebar ? "100%" : "80%" }}>
+          <Box sx={{ marginTop: "72px", width: openSidebar ? "100%" : "80%" }}>
             <Routes>
               <Route path='/home' element={<Home />} />
               <Route path='/course' element={<h1>Course</h1>} />
