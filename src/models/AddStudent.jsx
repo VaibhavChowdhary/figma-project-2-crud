@@ -6,7 +6,7 @@ import { Divider, Icon, IconButton } from '@mui/material';
 import CustomTextfield from '../CustomComponents/CustomTextfield';
 import CustomButton from "../CustomComponents/CustomButton"
 import CloseIcon from '@mui/icons-material/Close';
-import {validateInfo} from "../utils/validate"
+import { validateInfo } from "../utils/validate"
 
 const style = {
     position: 'absolute',
@@ -20,6 +20,7 @@ const style = {
     p: 4,
 };
 export default function AddStudent({ openAddStudent, setOpenAddStudent }) {
+    const [validationError, setValidationError] = React.useState([])
     const handleClose = () => {
         setOpenAddStudent(false)
     }
@@ -29,15 +30,17 @@ export default function AddStudent({ openAddStudent, setOpenAddStudent }) {
         const form = event.target;
         const formData = new FormData(form);
         const dataObject = Object.fromEntries([...formData.entries()]);
-        try{
-
+        try {
             const validateProvidedInfo = validateInfo(dataObject)
-        }catch(error){
-            console.log(error.message)
+            if (validateProvidedInfo) {
+                setValidationError([])
+                console.log(dataObject);
+            }
+        } catch (error) {
+            setValidationError(error.message.split(","))
         }
-        console.log(dataObject);
-
     }
+    console.log(validationError)
 
     return (
         <>
@@ -60,20 +63,33 @@ export default function AddStudent({ openAddStudent, setOpenAddStudent }) {
                             <form onSubmit={handleSubmit}>
                                 <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2 }}>
                                     <Box>
-                                        <CustomTextfield width="300px" height="50px" name="name" placeholder="Name" />
+                                        <CustomTextfield width="300px" height="50px" name="name" placeholder="Name"
+                                            error={validationError.includes("name error")}
+                                            helperText={validationError.includes("name error") && "Invalid Name"}
+                                        />
                                     </Box>
                                     <Box>
-                                        <CustomTextfield width="300px" height="50px" name="email" placeholder="Email" type="email" />
+                                        <CustomTextfield width="300px" height="50px" name="email" placeholder="Email" type="email"
+                                            error={validationError.includes("email error")}
+                                            helperText={validationError.includes("email error") && "Invalid Email"}
+                                        />
                                     </Box>
                                     <Box>
-                                        <CustomTextfield width="300px" height="50px" name="phone" placeholder="Phone" type="tel" />
+                                        <CustomTextfield width="300px" height="50px" name="phone" placeholder="Phone" type="tel"
+                                            error={validationError.includes("phone error")}
+                                            helperText={validationError.includes("phone error") && "Invalid Phone Number(length must be 10)"}
+                                        />
                                     </Box>
                                     <Box>
-                                        <CustomTextfield width="300px" height="50px" name="enrollNo" placeholder="Enroll Number" />
+                                        <CustomTextfield width="300px" height="50px" name="enrollNo" placeholder="Enroll Number"
+                                            error={validationError.includes("enrollNo error")}
+                                            helperText={validationError.includes("enrollNo error") && "Invalid Enroll Number"}
+                                        />
                                     </Box>
                                     <Box>
                                         <CustomTextfield width="300px" height="50px" name="date" placeholder="Date of Admission" type="date"
-                                        inputProps={{ min: "2019-01-24", max: "2020-05-31" }}
+                                            error={validationError.includes("date error")}
+                                            helperText={validationError.includes("date error") && "Enter Valid Date"}
                                         />
                                     </Box>
                                 </Box>

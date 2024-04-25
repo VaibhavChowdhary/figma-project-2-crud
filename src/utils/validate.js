@@ -14,38 +14,35 @@ export const validatePassword = (password) => {
 };
 
 function validatePhoneNumber(phoneNumber) {
-  const regex = /^\d{10}$/; 
+  const regex = /^\d{10}$/;
   return regex.test(phoneNumber);
 }
 
 export const validateInfo = (info) => {
-  const errors = []; 
+  const errors = [];
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(info.email)) {
-    errors.push("Invalid email format");
+    errors.push("email error");
   }
-  // if (info.password?.length < 8) {
-  //   errors.push("Password must be at least 8 characters long");
-  // }
- 
+
   if (!/^\d{10}$/.test(info.phone)) {
-    errors.push("Invalid phone number (must be 10 digits)");
+    errors.push("phone error");
   }
 
   if (!info.name || info.name.trim() === "") {
-    errors.push("Name cannot be empty");
+    errors.push("name error");
   }
 
   if (!info.enrollNo || info.enrollNo.trim() === "") {
-    errors.push("Enrollment number cannot be empty");
+    errors.push("enrollNo error");
   }
-  
+
   if (!new Date(info.date).getTime()) {
-    errors.push("Invalid date of admission format");
+    errors.push("date error");
   }
 
   if (errors.length > 0) {
-    throw new Error(errors.join("\n"));
+    throw new Error(errors);
   }
 
   return true;
