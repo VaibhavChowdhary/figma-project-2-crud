@@ -107,7 +107,7 @@ export default function Payment() {
                         </TableBody>
                     </Table>
                 </Box>
-                <Box  sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <Pagination count={10} color="warning" showFirstButton showLastButton />
                 </Box>
             </Box>
