@@ -7,40 +7,38 @@ import CustomTextfield from '../CustomComponents/CustomTextfield';
 import CustomButton from "../CustomComponents/CustomButton"
 import CloseIcon from '@mui/icons-material/Close';
 import { validateInfo } from "../utils/validate"
+import { formatDate } from "../utils/helpers"
+import { style } from "../utils/constants"
+import { SomeContext } from '../context/context'
 
-const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    maxWidth: 800,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-};
 export default function AddStudent({ openAddStudent, setOpenAddStudent }) {
     const [validationError, setValidationError] = React.useState([])
+    const context = React.useContext(SomeContext)
     const handleClose = () => {
         setOpenAddStudent(false)
+        setValidationError([])
     }
 
     const handleSubmit = (event) => {
         event.preventDefault()
         const form = event.target;
         const formData = new FormData(form);
-        const dataObject = Object.fromEntries([...formData.entries()]);
+        const studentObject = Object.fromEntries([...formData.entries()]);
         try {
-            const validateProvidedInfo = validateInfo(dataObject)
+            const validateProvidedInfo = validateInfo(studentObject)
             if (validateProvidedInfo) {
+                const dateObj = formatDate(studentObject.dateOfAdmission)
+                studentObject.dateOfAdmission = dateObj
+                context.setStudentData([...context.studentData, studentObject]);
                 setValidationError([])
-                console.log(dataObject);
+                setTimeout(() => {
+                    form.reset();
+                }, [1000])
             }
         } catch (error) {
             setValidationError(error.message.split(","))
         }
     }
-    console.log(validationError)
 
     return (
         <>
@@ -81,13 +79,13 @@ export default function AddStudent({ openAddStudent, setOpenAddStudent }) {
                                         />
                                     </Box>
                                     <Box>
-                                        <CustomTextfield width="300px" height="50px" name="enrollNo" placeholder="Enroll Number"
+                                        <CustomTextfield width="300px" height="50px" name="enrollNumber" placeholder="Enroll Number"
                                             error={validationError.includes("enrollNo error")}
                                             helperText={validationError.includes("enrollNo error") && "Invalid Enroll Number"}
                                         />
                                     </Box>
                                     <Box>
-                                        <CustomTextfield width="300px" height="50px" name="date" placeholder="Date of Admission" type="date"
+                                        <CustomTextfield width="300px" height="50px" name="dateOfAdmission" placeholder="Date of Admission" type="date"
                                             error={validationError.includes("date error")}
                                             helperText={validationError.includes("date error") && "Enter Valid Date"}
                                         />

@@ -6,7 +6,7 @@ import CustomTextfield from '../CustomComponents/CustomTextfield'
 import SearchIcon from '@mui/icons-material/Search';
 import { SomeContext } from '../context/context'
 
-export default function Header() {
+const Header = () => {
     const xyz = useContext(SomeContext);
     console.log("header mounted")
     const handleClick = () => {
@@ -44,3 +44,5 @@ export default function Header() {
         </>
     )
 }
+
+export default Header

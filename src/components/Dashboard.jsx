@@ -7,13 +7,16 @@ import { Box } from '@mui/material';
 import Home from '../pages/Home';
 import Payment from '../pages/Payment';
 import Students from '../pages/Students';
+import { studentsData } from "../data/students"
 
 export default function Dashboard() {
   const [openSidebar, setOpenSidebar] = useState(false);
+  const [studentData, setStudentData] = useState(studentsData)
+
   return (
     <>
       <Box sx={{ display: 'flex', justifyContent: "start", backgroundColor: "#F8F8F8", height: "100vh", width: "100%" }}>
-        <SomeContext.Provider value={{ openSidebar, setOpenSidebar }}>
+        <SomeContext.Provider value={{ openSidebar, setOpenSidebar, studentData, setStudentData }}>
           <Sidebar />
           <Header />
           <Box sx={{ width: openSidebar ? "100%" : "80%", margin: "72px 30px 30px 30px" }}>

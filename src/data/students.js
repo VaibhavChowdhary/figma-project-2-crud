@@ -31,12 +31,4 @@ export const studentsData = [
     enrollNumber: "7654321090012345",
     dateOfAdmission: "10 Mar, 2022",
   },
-  {
-    id: 5,
-    name: "Bob Brown",
-    email: "bob@example.com",
-    phone: "6543210987",
-    enrollNumber: "6543210980012345",
-    dateOfAdmission: "5 Apr, 2022",
-  },
 ];

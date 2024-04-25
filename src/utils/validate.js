@@ -33,11 +33,11 @@ export const validateInfo = (info) => {
     errors.push("name error");
   }
 
-  if (!info.enrollNo || info.enrollNo.trim() === "") {
+  if (!info.enrollNumber || info.enrollNumber.trim() === "") {
     errors.push("enrollNo error");
   }
 
-  if (!new Date(info.date).getTime()) {
+  if (!new Date(info.dateOfAdmission).getTime()) {
     errors.push("date error");
   }
 

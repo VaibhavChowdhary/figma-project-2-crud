@@ -1,4 +1,4 @@
-import { Box, Divider, Pagination } from '@mui/material'
+import { Box, Divider, IconButton, Pagination, Icon } from '@mui/material'
 import React, { useContext, useEffect, useState } from 'react'
 import CustomTypo from '../CustomComponents/CustomTypo'
 import filter from "../assets/filter.png"
@@ -11,12 +11,10 @@ import TableRow from '@mui/material/TableRow';
 import editIcon from "../assets/edit.png";
 import deleteIcon from "../assets/deleteIcon.png";
 import { SomeContext } from '../context/context'
-import { studentsData } from "../data/students"
 import AddStudent from '../models/AddStudent'
 
 export default function Students() {
-    const xyz = useContext(SomeContext);
-    const [data, setData] = useState(studentsData);
+    const context = useContext(SomeContext);
     const [openAddStudent, setOpenAddStudent] = useState(false);
 
 
@@ -26,7 +24,7 @@ export default function Students() {
 
     return (
         <>
-            <Box sx={{ maxWidth: xyz.openSidebar ? "100%" : "1110px", display: "flex", justifyContent: "space-between", flexDirection: "column", height: "100%" }}>
+            <Box sx={{ maxWidth: context.openSidebar ? "100%" : "1110px", display: "flex", justifyContent: "space-between", flexDirection: "column", height: "100%" }}>
                 <Box>
                     <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                         <Box>
@@ -41,17 +39,21 @@ export default function Students() {
                             </CustomButton>
                         </Box>
                     </Box>
-                    <Divider sx={{ color: "#E5E5E5", maxWidth: "1110px" }} />
+                    <Divider sx={{ color: "#E5E5E5", maxWidth: "1110px", marginTop: "11.5px" }} />
                     <Table sx={{ maxWidth: "100%" }}>
                         <TableHead>
                             <TableRow sx={{ borderRadius: "8px" }}>
                                 <TableCell sx={{ border: "none" }}>
                                 </TableCell>
-                                <TableCell sx={{ border: "none" }}>
-                                    <CustomTypo color="#ACACAC" fontSize="12px" >
+                                <TableCell sx={{ border: "none", display: "flex", justifyContent: "space-between" }}
+                                    onMouseEnter={(e) => console.log("entered")}
+                                    onMouseLeave={(e) => console.log("exited")}>
+                                    <CustomTypo color="#ACACAC" fontSize="12px">
                                         Name
                                     </CustomTypo>
+                                    <img src={filter} alt="filter" width="14px" height="19.25px" style={{ marginRight: "30px", alignSelf: "center", display: 'none' }} />
                                 </TableCell>
+
                                 <TableCell sx={{ border: "none" }}>
                                     <CustomTypo color="#ACACAC" fontSize="12px" >
                                         Email
@@ -75,7 +77,7 @@ export default function Students() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {data.map((row, index) => (
+                            {context.studentData.map((row, index) => (
                                 <TableRow
                                     key={index}
                                     sx={{
@@ -122,8 +124,11 @@ export default function Students() {
                         </TableBody>
                     </Table>
                 </Box>
-                <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    <Pagination count={10} color="warning" showFirstButton showLastButton/>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <CustomTypo>Page No: {1}</CustomTypo>
+                    <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
+                        <Pagination count={10} color="warning" showFirstButton showLastButton />
+                    </Box>
                 </Box>
             </Box>
             <AddStudent openAddStudent={openAddStudent} setOpenAddStudent={setOpenAddStudent} />
