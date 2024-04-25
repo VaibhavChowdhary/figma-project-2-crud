@@ -15,6 +15,7 @@ export default function CustomButton({
         type={type ? type : 'button'}
         sx={{
           borderRadius: "4px",
+          backgroundColor: "#FEAF00",
           height: "44px",
           maxWidth: "415px",
           maxHeight: "44px",

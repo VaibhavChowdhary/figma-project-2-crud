@@ -1,15 +1,4 @@
-const express = require("express");
-const app = express();
-const cors = require("cors");
-const PORT = 4000;
-app.use(
-  cors({
-    origin: ["*"],
-    methods: ["GET", "POST"],
-    
-  })
-);
-const data = [
+export const studentsData = [
   {
     id: 1,
     name: "Vaibhav",
@@ -51,12 +40,3 @@ const data = [
     dateOfAdmission: "5 Apr, 2022",
   },
 ];
-
-app.get("/api/data", (req, res) => {
-  res.json(data);
-});
-
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});

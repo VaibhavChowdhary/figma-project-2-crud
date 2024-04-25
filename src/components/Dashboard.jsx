@@ -16,7 +16,7 @@ export default function Dashboard() {
         <SomeContext.Provider value={{ openSidebar, setOpenSidebar }}>
           <Sidebar />
           <Header />
-          <Box sx={{ marginTop: "72px", width: openSidebar ? "100%" : "80%", marginLeft: "30px" }}>
+          <Box sx={{ width: openSidebar ? "100%" : "80%", margin: "72px 30px 30px 30px" }}>
             <Routes>
               <Route path='/home' element={<Home />} />
               <Route path='/course' element={<h1>Course</h1>} />

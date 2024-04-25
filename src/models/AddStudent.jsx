@@ -4,7 +4,7 @@ import Modal from '@mui/material/Modal';
 import CustomTypo from '../CustomComponents/CustomTypo';
 import { Divider } from '@mui/material';
 import CustomTextfield from '../CustomComponents/CustomTextfield';
-
+import CustomButton from "../CustomComponents/CustomButton"
 
 const style = {
     position: 'absolute',
@@ -30,12 +30,14 @@ export default function AddStudent({ openAddStudent, setOpenAddStudent }) {
                     onClose={handleClose}
                 >
                     <Box sx={style}>
-                        <Box sx={{display:"flex",justifyCoontent:"start",gap:2}}>
-                            <CustomTypo fontWeight="bold" fontSize="20px">
-                                Add New Student
-                            </CustomTypo>
-                            <Divider />
-                            <Box sx={{ display: "flex", flexWrap: "wrap",gap:2}}>
+                        <Box sx={{ display: "flex", justifyContent: "start", flexDirection: "column", gap: 2 }}>
+                            <Box>
+                                <CustomTypo fontWeight="bold" fontSize="20px">
+                                    Add New Student
+                                </CustomTypo>
+                            </Box>
+                            <Divider sx={{ margin: "10px 0px 20px 0px" }} />
+                            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2 }}>
                                 <Box>
                                     <CustomTextfield width="300px" height="50px" placeholder="Name" />
                                 </Box>
@@ -52,7 +54,11 @@ export default function AddStudent({ openAddStudent, setOpenAddStudent }) {
                                     <CustomTextfield width="300px" height="50px" placeholder="Date of Admission" type="date" />
                                 </Box>
                             </Box>
-                            <CustomButton
+                            <Box>
+                                <CustomButton type="submit">
+                                    Add Student
+                                </CustomButton>
+                            </Box>
                         </Box>
                     </Box>
                 </Modal>
