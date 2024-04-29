@@ -9,7 +9,6 @@ import Modal from '@mui/material/Modal';
 
 const DeleteStudent = ({ openDeleteStudent, setOpenDeleteStudent, userToDelete }) => {
   const context = useContext(SomeContext)
-  console.log(context.studentData)
   const handleDelete = () => {
     let indexToRemove = context.studentData.findIndex(obj => obj.email === userToDelete.email);
     if (indexToRemove !== -1) {
