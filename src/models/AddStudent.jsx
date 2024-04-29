@@ -33,6 +33,7 @@ export default function AddStudent({ openAddStudent, setOpenAddStudent }) {
                 setValidationError([])
                 setTimeout(() => {
                     form.reset();
+                    console.log(context.studentData)
                 }, [1000])
             }
         } catch (error) {

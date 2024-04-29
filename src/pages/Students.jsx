@@ -12,15 +12,28 @@ import editIcon from "../assets/edit.png";
 import deleteIcon from "../assets/deleteIcon.png";
 import { SomeContext } from '../context/context'
 import AddStudent from '../models/AddStudent'
+import CustomPagination from '../CustomComponents/CustomPagination'
 
 export default function Students() {
     const context = useContext(SomeContext);
+    const [currPageNo, setCurrPageNo] = useState(1);
+    const itemsPerPage = 5;
+    const totalPages = Math.ceil(context.studentData.length / itemsPerPage);
     const [openAddStudent, setOpenAddStudent] = useState(false);
-
 
     const handleAddStudent = () => {
         setOpenAddStudent(true);
     }
+
+    const handlePageChange = (value) => {
+        console.log(value)
+        setCurrPageNo(value);
+    };
+
+    const startIndex = (currPageNo - 1) * itemsPerPage;
+    const endIndex = Math.min(startIndex + itemsPerPage, context.studentData.length);
+
+    const currentPageData = context.studentData.slice(startIndex, endIndex);
 
     return (
         <>
@@ -77,7 +90,7 @@ export default function Students() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {context.studentData.map((row, index) => (
+                            {currentPageData.map((row, index) => (
                                 <TableRow
                                     key={index}
                                     sx={{
@@ -125,9 +138,12 @@ export default function Students() {
                     </Table>
                 </Box>
                 <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <CustomTypo>Page No: {1}</CustomTypo>
+                    <CustomTypo>Page No: {currPageNo}</CustomTypo>
                     <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
-                        <Pagination count={10} color="warning" showFirstButton showLastButton />
+                        <CustomPagination
+                            count={totalPages}
+                            handlePageChange={handlePageChange}
+                        />
                     </Box>
                 </Box>
             </Box>

@@ -3,24 +3,46 @@ import CustomTypo from '../CustomComponents/CustomTypo';
 import filter from "../assets/filter.png";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import eye from "../assets/eye.png"
 import { SomeContext } from '../context/context'
+import CustomPagination from '../CustomComponents/CustomPagination';
 export default function Payment() {
-    const xyz = useContext(SomeContext);
+    const context = useContext(SomeContext);
+    const [currPageNo, setCurrPageNo] = useState(1);
     const rows = [
         { name: "vaibhav", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "08 Dec, 2021" },
-        { name: "vaibhav", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "08 Dec, 2021" },
-        { name: "vaibhav", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "08 Dec, 2021" },
+        { name: "vervr", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "08 Dec, 2021" },
+        { name: "vcewcewc", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "08 Dec, 2021" },
+        { name: "iuhyg", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "08 Dec, 2021" },
+        { name: "wqqdq", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "08 Dec, 2021" },
+        { name: "nmi", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "08 Dec, 2021" },
+        { name: "ttrbyr", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "08 Dec, 2021" },
+        { name: "gfbhbby", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "08 Dec, 2021" },
+        { name: "dcrv", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "08 Dec, 2021" },
+        { name: "tyhty", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "08 Dec, 2021" },
+        { name: "ikui", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "08 Dec, 2021" },
     ]
+    const itemsPerPage = 10;
+    const totalPages = Math.ceil(rows.length / itemsPerPage);
+
+    const startIndex = (currPageNo - 1) * itemsPerPage;
+    const endIndex = Math.min(startIndex + itemsPerPage, rows.length);
+
+    const currentPageData = rows.slice(startIndex, endIndex);
+
+    const handlePageChange = (value) => {
+        setCurrPageNo(value);
+    };
+
+
     return (
         <>
-            <Box sx={{ width: xyz.openSidebar ? "WidthFull" : "calc(100%-WidthFull)", display: "flex", justifyContent: "space-between", flexDirection: "column", height: "100%" }}>
+            <Box sx={{ width: context.openSidebar ? "WidthFull" : "calc(100%-WidthFull)", display: "flex", justifyContent: "space-between", flexDirection: "column", height: "100%" }}>
                 <Box>
-
                     <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                         <CustomTypo fontWeight="bold" fontSize="22px" color="#000000">
                             Payment Details
@@ -28,7 +50,7 @@ export default function Payment() {
                         <img src={filter} alt='filter' width="14px" height="19.25px" />
                     </Box>
                     <Divider sx={{ color: "#E5E5E5", marginTop: "20px", marginBottom: "18px" }} />
-                    <Table sx={{ minWidth: xyz.openSidebar ? "100%" : `calc(100% - 240px)` }}>
+                    <Table sx={{ minWidth: context.openSidebar ? "100%" : `calc(100% - 240px)` }}>
                         <TableHead>
                             <TableRow>
                                 <TableCell sx={{ border: "none" }}>
@@ -64,7 +86,7 @@ export default function Payment() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {rows.map((row, index) => (
+                            {currentPageData.map((row, index) => (
                                 <TableRow
                                     key={index}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 }, backgroundColor: index % 2 === 0 ? "#FFFFFF" : "#F8F8F8" }}
@@ -107,8 +129,14 @@ export default function Payment() {
                         </TableBody>
                     </Table>
                 </Box>
-                <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    <Pagination count={10} color="warning" showFirstButton showLastButton />
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <CustomTypo>Page No: {currPageNo}</CustomTypo>
+                    <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
+                        <CustomPagination
+                            count={totalPages}
+                            handlePageChange={handlePageChange}
+                        />
+                    </Box>
                 </Box>
             </Box>
         </>
