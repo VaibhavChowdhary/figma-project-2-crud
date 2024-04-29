@@ -1,5 +1,5 @@
-import { Box, Divider, IconButton, Pagination, Icon } from '@mui/material'
-import React, { useContext, useEffect, useState } from 'react'
+import { Box, Divider } from '@mui/material'
+import React, { useContext, useState } from 'react'
 import CustomTypo from '../CustomComponents/CustomTypo'
 import filter from "../assets/filter.png"
 import CustomButton from "../CustomComponents/CustomButton"
@@ -12,28 +12,44 @@ import editIcon from "../assets/edit.png";
 import deleteIcon from "../assets/deleteIcon.png";
 import { SomeContext } from '../context/context'
 import AddStudent from '../models/AddStudent'
+import DeleteStudent from '../models/DeleteStudent'
 import CustomPagination from '../CustomComponents/CustomPagination'
+import { studentTableHeadData } from "../utils/constants"
+import { showSortButton, hideSortButton, sortByName, sortByDate } from "../utils/helpers"
 
 export default function Students() {
     const context = useContext(SomeContext);
     const [currPageNo, setCurrPageNo] = useState(1);
+    const [currentPageData, setCurrentPageData] = useState(context.studentData);
     const itemsPerPage = 5;
     const totalPages = Math.ceil(context.studentData.length / itemsPerPage);
     const [openAddStudent, setOpenAddStudent] = useState(false);
+    const [openDeleteStudent, setOpenDeleteStudent] = useState(false);
 
     const handleAddStudent = () => {
         setOpenAddStudent(true);
     }
 
+    const handleDeleteStudent = () => {
+        setOpenDeleteStudent(true);
+    }
+
     const handlePageChange = (value) => {
-        console.log(value)
         setCurrPageNo(value);
     };
 
     const startIndex = (currPageNo - 1) * itemsPerPage;
     const endIndex = Math.min(startIndex + itemsPerPage, context.studentData.length);
 
-    const currentPageData = context.studentData.slice(startIndex, endIndex);
+    const sortName = () => {
+        const sortedData = sortByName(currentPageData, 'asc')
+        setCurrentPageData(sortedData.slice(startIndex, endIndex))
+    }
+
+    const sortDate = () => {
+        const sortedData = sortByDate(currentPageData, 'asc')
+        setCurrentPageData(sortedData.slice(startIndex, endIndex))
+    }
 
     return (
         <>
@@ -58,34 +74,26 @@ export default function Students() {
                             <TableRow sx={{ borderRadius: "8px" }}>
                                 <TableCell sx={{ border: "none" }}>
                                 </TableCell>
-                                <TableCell sx={{ border: "none", display: "flex", justifyContent: "space-between" }}
-                                    onMouseEnter={(e) => console.log("entered")}
-                                    onMouseLeave={(e) => console.log("exited")}>
-                                    <CustomTypo color="#ACACAC" fontSize="12px">
-                                        Name
-                                    </CustomTypo>
-                                    <img src={filter} alt="filter" width="14px" height="19.25px" style={{ marginRight: "30px", alignSelf: "center", display: 'none' }} />
+                                <TableCell sx={{ border: "none", display: "flex", justifyContent: "space-between", "&:hover": { cursor: "pointer" } }} onMouseEnter={() => showSortButton("name")} onMouseLeave={() => hideSortButton("name")} onClick={() => sortName()}>
+                                    <CustomTypo color="#ACACAC" fontSize="12px">Name</CustomTypo>
+                                    <img src={filter} alt="filter" width="12px" height="15.25px" style={{ marginRight: "30px", alignSelf: "center", display: "none" }} id="name" />
                                 </TableCell>
 
-                                <TableCell sx={{ border: "none" }}>
-                                    <CustomTypo color="#ACACAC" fontSize="12px" >
-                                        Email
-                                    </CustomTypo>
+                                <TableCell sx={{ border: "none", "&:hover": { cursor: "pointer" } }}>
+                                    <CustomTypo color="#ACACAC" fontSize="12px">Email</CustomTypo>
                                 </TableCell>
-                                <TableCell sx={{ border: "none" }} >
-                                    <CustomTypo color="#ACACAC" fontSize="12px" >
-                                        Phone
-                                    </CustomTypo>
+
+                                <TableCell sx={{ border: "none", "&:hover": { cursor: "pointer" } }}>
+                                    <CustomTypo color="#ACACAC" fontSize="12px">Phone</CustomTypo>
                                 </TableCell>
-                                <TableCell sx={{ border: "none" }} >
-                                    <CustomTypo color="#ACACAC" fontSize="12px" >
-                                        Enroll Number
-                                    </CustomTypo>
+
+                                <TableCell sx={{ border: "none", "&:hover": { cursor: "pointer" } }}>
+                                    <CustomTypo color="#ACACAC" fontSize="12px">Enroll Number</CustomTypo>
                                 </TableCell>
-                                <TableCell sx={{ border: "none" }}>
-                                    <CustomTypo color="#ACACAC" fontSize="12px" >
-                                        Date of admission
-                                    </CustomTypo>
+
+                                <TableCell sx={{ border: "none", display: "flex", justifyContent: "space-between", "&:hover": { cursor: "pointer" } }} onMouseEnter={() => showSortButton("date")} onMouseLeave={() => hideSortButton("date")} onClick={() => sortDate()}>
+                                    <CustomTypo color="#ACACAC" fontSize="12px">Date of Admission</CustomTypo>
+                                    <img src={filter} alt="filter" width="12px" height="15.25px" style={{ marginRight: "30px", alignSelf: "center", display: "none" }} id="date" />
                                 </TableCell>
                             </TableRow>
                         </TableHead>
@@ -128,8 +136,8 @@ export default function Students() {
                                     </TableCell>
                                     <TableCell align="center" sx={{ border: "none" }}>
                                         <Box sx={{ display: "flex", gap: "33PX" }}>
-                                            <img src={editIcon} alt='view' />
-                                            <img src={deleteIcon} alt='view' />
+                                            <img src={editIcon} alt='view' style={{ cursor: "pointer" }} />
+                                            <img src={deleteIcon} alt='view' style={{ cursor: "pointer" }} onClick={handleDeleteStudent} />
                                         </Box>
                                     </TableCell>
                                 </TableRow>
@@ -148,6 +156,7 @@ export default function Students() {
                 </Box>
             </Box>
             <AddStudent openAddStudent={openAddStudent} setOpenAddStudent={setOpenAddStudent} />
+            <DeleteStudent openDeleteStudent={openDeleteStudent} setOpenDeleteStudent={setOpenDeleteStudent} />
         </>
     )
 }

@@ -5,7 +5,7 @@ export const studentsData = [
     email: "vaibhav@gmail.com",
     phone: "1234567890",
     enrollNumber: "1234567305477760",
-    dateOfAdmission: "8 Dec, 2021",
+    dateOfAdmission: "Dec 8, 2021",
   },
   {
     id: 2,
@@ -13,7 +13,7 @@ export const studentsData = [
     email: "john@example.com",
     phone: "9876543210",
     enrollNumber: "9876543200012345",
-    dateOfAdmission: "15 Jan, 2022",
+    dateOfAdmission: "Jan 15, 2022",
   },
   {
     id: 3,
@@ -21,7 +21,7 @@ export const studentsData = [
     email: "jane@example.com",
     phone: "8765432109",
     enrollNumber: "8765432100012345",
-    dateOfAdmission: "20 Feb, 2022",
+    dateOfAdmission: "Feb 20, 2022",
   },
   {
     id: 4,
@@ -29,7 +29,7 @@ export const studentsData = [
     email: "alice@example.com",
     phone: "7654321098",
     enrollNumber: "7654321090012345",
-    dateOfAdmission: "10 Mar, 2022",
+    dateOfAdmission: "Mar 10, 2022",
   },
   {
     id: 5,
@@ -37,14 +37,6 @@ export const studentsData = [
     email: "alice@example.com",
     phone: "7654321098",
     enrollNumber: "7654321090012345",
-    dateOfAdmission: "10 Mar, 2022",
+    dateOfAdmission: "Mar 14, 2022",
   },
-  {
-    id: 6,
-    name: "Alice Johnson",
-    email: "alice@example.com",
-    phone: "7654321098",
-    enrollNumber: "7654321090012345",
-    dateOfAdmission: "10 Mar, 2022",
-  }
 ];

@@ -10,3 +10,43 @@ export const formatDate = (dateString) => {
     });
   }
 };
+
+export const sortByName = (data, sortOrder) => {
+  const sortedData = [...data].sort((a, b) => {
+    const nameA = a.name.toLowerCase();
+    const nameB = b.name.toLowerCase();
+    if (sortOrder === "asc") {
+      return nameA.localeCompare(nameB);
+    } else {
+      return nameB.localeCompare(nameA);
+    }
+  });
+  return sortedData;
+};
+
+export const sortByDate = (data, sortOrder) => {
+  const sortedData = [...data].sort((a, b) => {
+    const dateA = new Date(a.dateOfAdmission);
+    const dateB = new Date(b.dateOfAdmission);
+    if (sortOrder === "asc") {
+      return dateA - dateB;
+    } else {
+      return dateB - dateA;
+    }
+  });
+  return sortedData;
+};
+
+export const showSortButton = (value) => {
+  const xyz = document.getElementById(value)
+  if (xyz) {
+      xyz.style.display = "block";
+  }
+}
+
+export const hideSortButton = (value) => {
+  const xyz = document.getElementById(value)
+  if (xyz) {
+      xyz.style.display = "none";
+  }
+}

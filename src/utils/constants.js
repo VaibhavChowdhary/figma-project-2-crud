@@ -9,3 +9,11 @@ export const style = {
   boxShadow: 24,
   p: 4,
 };
+
+export const studentTableHeadData = [
+  "","Name","Email","Phone","Enroll Number","Date of Admission"
+]
+
+export const paymentTableHeadData = [
+  "Name","Payment Schedule","Bill Number","Amount Paid","Balance amount","Date"
+]
