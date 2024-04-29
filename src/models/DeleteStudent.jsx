@@ -7,9 +7,18 @@ import { SomeContext } from "../context/context";
 import Modal from '@mui/material/Modal';
 
 
-const DeleteStudent = ({ openDeleteStudent, setOpenDeleteStudent }) => {
+const DeleteStudent = ({ openDeleteStudent, setOpenDeleteStudent, userToDelete }) => {
   const context = useContext(SomeContext)
   console.log(context.studentData)
+  const handleDelete = () => {
+    let indexToRemove = context.studentData.findIndex(obj => obj.email === userToDelete.email);
+    if (indexToRemove !== -1) {
+      context.studentData.splice(indexToRemove, 1)
+      context.setStudentData(context.studentData)
+      handleClose()
+    }
+  }
+
   const handleClose = () => {
     setOpenDeleteStudent(false)
   }
@@ -17,11 +26,14 @@ const DeleteStudent = ({ openDeleteStudent, setOpenDeleteStudent }) => {
     <>
       <Modal open={openDeleteStudent} onClose={handleClose}>
         <Box sx={style}>
-          <Box sx={{marginBottom:"10px"}}>
-            <CustomTypo>Are you sure you want to Delete the User?</CustomTypo>
+          <Box sx={{ marginBottom: "10px" }}>
+            <CustomTypo>Are you sure you want to Delete the Below User?</CustomTypo>
+            <CustomTypo>
+              {JSON.stringify(userToDelete)}
+            </CustomTypo>
           </Box>
-          <Box sx={{display:"flex",justifyContent:"space-between"}}>
-            <CustomButton>
+          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            <CustomButton onClick={handleDelete}>
               Yes
             </CustomButton>
             <CustomButton onClick={handleClose}>

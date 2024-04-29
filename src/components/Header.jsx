@@ -8,7 +8,6 @@ import { SomeContext } from '../context/context'
 
 const Header = () => {
     const xyz = useContext(SomeContext);
-    console.log("header mounted")
     const handleClick = () => {
         xyz.setOpenSidebar(!xyz.openSidebar);
     }

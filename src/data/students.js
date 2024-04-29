@@ -32,11 +32,35 @@ export const studentsData = [
     dateOfAdmission: "Mar 10, 2022",
   },
   {
-    id: 5,
-    name: "Alice Johnson",
-    email: "alice@example.com",
+    id: 6,
+    name: "Alex Johnson",
+    email: "alex@example.com",
     phone: "7654321098",
     enrollNumber: "7654321090012345",
     dateOfAdmission: "Mar 14, 2022",
   },
+  {
+    id: 7,
+    name: "Spider man",
+    email: "spider@example.com",
+    phone: "7654321098",
+    enrollNumber: "7654321090012345",
+    dateOfAdmission: "Jul 14, 2022",
+  },
+  {
+    id: 8,
+    name: "Bat Man",
+    email: "bat@example.com",
+    phone: "7654321098",
+    enrollNumber: "7654321090012345",
+    dateOfAdmission: "Jun 14, 2022",
+  },
+  {
+    id: 9,
+    name: "Harry More",
+    email: "harry@example.com",
+    phone: "7654321098",
+    enrollNumber: "7654321090012345",
+    dateOfAdmission: "May 14, 2022",
+  }
 ];

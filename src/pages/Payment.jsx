@@ -1,4 +1,4 @@
-import { Box, Divider, Pagination } from '@mui/material';
+import { Box, Divider, FormControl, MenuItem, Select } from '@mui/material';
 import CustomTypo from '../CustomComponents/CustomTypo';
 import filter from "../assets/filter.png";
 import Table from '@mui/material/Table';
@@ -10,9 +10,11 @@ import TableRow from '@mui/material/TableRow';
 import eye from "../assets/eye.png"
 import { SomeContext } from '../context/context'
 import CustomPagination from '../CustomComponents/CustomPagination';
+
 export default function Payment() {
     const context = useContext(SomeContext);
     const [currPageNo, setCurrPageNo] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(5);
     const rows = [
         { name: "vaibhav", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "08 Dec, 2021" },
         { name: "vervr", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "08 Dec, 2021" },
@@ -26,7 +28,6 @@ export default function Payment() {
         { name: "tyhty", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "08 Dec, 2021" },
         { name: "ikui", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "08 Dec, 2021" },
     ]
-    const itemsPerPage = 10;
     const totalPages = Math.ceil(rows.length / itemsPerPage);
 
     const startIndex = (currPageNo - 1) * itemsPerPage;
@@ -38,6 +39,9 @@ export default function Payment() {
         setCurrPageNo(value);
     };
 
+    const handleItemsPerPage = (event) => {
+        setItemsPerPage(event.target.value);
+    };
 
     return (
         <>
@@ -136,6 +140,17 @@ export default function Payment() {
                             count={totalPages}
                             handlePageChange={handlePageChange}
                         />
+                    </Box>
+                    <Box>
+                        <Select
+                            sx={{ width: "200px", height: "30px" }}
+                            value={itemsPerPage}
+                            onChange={handleItemsPerPage}
+                        >
+                            <MenuItem value={5}>5</MenuItem>
+                            <MenuItem value={10}>10</MenuItem>
+                            <MenuItem value={15}>15</MenuItem>
+                        </Select>
                     </Box>
                 </Box>
             </Box>

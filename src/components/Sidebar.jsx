@@ -34,7 +34,7 @@ export default function Sidebar() {
 
     return (
         <>
-            <Box sx={{ width: "270px", height: "100vh", backgroundColor: "#F2EAE1", display: xyz.openSidebar ? "none" : "flex", flexDirection: "column", alignItems: "center" }}>
+            <Box sx={{ width: "270px", height: "100vh", backgroundColor: "#F2EAE1", display: xyz.openSidebar ? "none" : "flex", flexDirection: "column", alignItems: "center", position: "sticky" }}>
                 <Box sx={{ textAlign: "center", marginTop: "18px" }}>
                     <span style={{ fontWeight: "bold", fontSize: "20px", borderLeft: "4px solid #F8D442", paddingLeft: "12.5px", textShadow: "1px 4px px lightgrey" }}>
                         CRUD OPERATIONS

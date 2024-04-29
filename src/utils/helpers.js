@@ -38,15 +38,15 @@ export const sortByDate = (data, sortOrder) => {
 };
 
 export const showSortButton = (value) => {
-  const xyz = document.getElementById(value)
+  const xyz = document.getElementById(value);
   if (xyz) {
-      xyz.style.display = "block";
+    xyz.style.display = "block";
   }
-}
+};
 
 export const hideSortButton = (value) => {
-  const xyz = document.getElementById(value)
+  const xyz = document.getElementById(value);
   if (xyz) {
-      xyz.style.display = "none";
+    xyz.style.display = "none";
   }
-}
+};

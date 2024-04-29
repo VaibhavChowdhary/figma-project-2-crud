@@ -1,5 +1,5 @@
-import { Box, Divider } from '@mui/material'
-import React, { useContext, useState } from 'react'
+import { Box, Divider, MenuItem, Select } from '@mui/material'
+import React, { useContext, useEffect, useState } from 'react'
 import CustomTypo from '../CustomComponents/CustomTypo'
 import filter from "../assets/filter.png"
 import CustomButton from "../CustomComponents/CustomButton"
@@ -21,21 +21,29 @@ export default function Students() {
     const context = useContext(SomeContext);
     const [currPageNo, setCurrPageNo] = useState(1);
     const [currentPageData, setCurrentPageData] = useState(context.studentData);
-    const itemsPerPage = 5;
+    const [itemsPerPage, setItemsPerPage] = useState(5);
     const totalPages = Math.ceil(context.studentData.length / itemsPerPage);
     const [openAddStudent, setOpenAddStudent] = useState(false);
     const [openDeleteStudent, setOpenDeleteStudent] = useState(false);
+    const [deleteUser, setDeleteUser] = useState();
+
+    console.log(totalPages)
 
     const handleAddStudent = () => {
         setOpenAddStudent(true);
     }
 
-    const handleDeleteStudent = () => {
+    const handleDeleteStudent = (student) => {
         setOpenDeleteStudent(true);
+        setDeleteUser(student)
     }
 
     const handlePageChange = (value) => {
         setCurrPageNo(value);
+    };
+
+    const handleItemsPerPage = (event) => {
+        setItemsPerPage(event.target.value);
     };
 
     const startIndex = (currPageNo - 1) * itemsPerPage;
@@ -98,7 +106,7 @@ export default function Students() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {currentPageData.map((row, index) => (
+                            {currentPageData.map((student, index) => (
                                 <TableRow
                                     key={index}
                                     sx={{
@@ -111,33 +119,33 @@ export default function Students() {
                                     </TableCell>
                                     <TableCell sx={{ border: "none" }}>
                                         <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
-                                            {row.name}
+                                            {student.name}
                                         </CustomTypo>
                                     </TableCell>
                                     <TableCell align="left" sx={{ border: "none" }}>
                                         <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
-                                            {row.email}
+                                            {student.email}
                                         </CustomTypo>
                                     </TableCell>
                                     <TableCell align="left" sx={{ border: "none" }}>
                                         <CustomTypo color="#000000" fontSize="14px" fontWeight="500" >
-                                            {row.phone}
+                                            {student.phone}
                                         </CustomTypo>
                                     </TableCell>
                                     <TableCell align="left" sx={{ border: "none" }}>
                                         <CustomTypo color="#000000" fontSize="14px" fontWeight="500" >
-                                            {row.enrollNumber}
+                                            {student.enrollNumber}
                                         </CustomTypo>
                                     </TableCell>
                                     <TableCell align="left" sx={{ border: "none" }}>
                                         <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
-                                            {row.dateOfAdmission}
+                                            {student.dateOfAdmission}
                                         </CustomTypo>
                                     </TableCell>
                                     <TableCell align="center" sx={{ border: "none" }}>
                                         <Box sx={{ display: "flex", gap: "33PX" }}>
                                             <img src={editIcon} alt='view' style={{ cursor: "pointer" }} />
-                                            <img src={deleteIcon} alt='view' style={{ cursor: "pointer" }} onClick={handleDeleteStudent} />
+                                            <img src={deleteIcon} alt='view' style={{ cursor: "pointer" }} onClick={() => handleDeleteStudent(student)} />
                                         </Box>
                                     </TableCell>
                                 </TableRow>
@@ -153,10 +161,21 @@ export default function Students() {
                             handlePageChange={handlePageChange}
                         />
                     </Box>
+                    <Box>
+                        <Select
+                            sx={{ width: "200px", height: "30px" }}
+                            value={itemsPerPage}
+                            onChange={handleItemsPerPage}
+                        >
+                            <MenuItem value={5}>5</MenuItem>
+                            <MenuItem value={10}>10</MenuItem>
+                            <MenuItem value={15}>15</MenuItem>
+                        </Select>
+                    </Box>
                 </Box>
             </Box>
             <AddStudent openAddStudent={openAddStudent} setOpenAddStudent={setOpenAddStudent} />
-            <DeleteStudent openDeleteStudent={openDeleteStudent} setOpenDeleteStudent={setOpenDeleteStudent} />
+            <DeleteStudent openDeleteStudent={openDeleteStudent} setOpenDeleteStudent={setOpenDeleteStudent} userToDelete={deleteUser} />
         </>
     )
 }
