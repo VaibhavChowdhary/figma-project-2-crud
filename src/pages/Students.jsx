@@ -45,6 +45,15 @@ export default function Students() {
         setEditField(student.id);
     }
 
+    useEffect(() => {
+        if (currentPageData.slice(startIndex, endIndex).length === 0 && currPageNo > 1) {
+            setCurrPageNo(currPageNo - 1)
+        } else if (currentPageData.slice(startIndex, endIndex).length === 0 && currPageNo === 1) {
+            setEmptyData(true)
+        }
+    }, [currentPageData, currPageNo, itemsPerPage, startIndex, endIndex]);
+
+
     const handleEditInputChange = (e, student) => {
         const { name, value } = e.target;
         setRowData((prevData) => ({
@@ -75,10 +84,6 @@ export default function Students() {
             });
         });
     };
-
-    if (currentPageData.slice(startIndex, endIndex).length === 0 && currPageNo > 1) {
-        setCurrPageNo(currPageNo - 1);
-    }
 
     const handlePageChange = (value) => {
         setCurrPageNo(value);
@@ -143,99 +148,109 @@ export default function Students() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {currentPageData.slice(startIndex, endIndex).map((student, index) => (
-                                <TableRow
-                                    key={index}
-                                    sx={{
-                                        '&:last-child td, &:last-child th': { border: 0 }, backgroundColor: "#FFFFFF"
-                                        , '&:not(:last-child) td, &:not(:last-child) th': { borderBottom: "10px solid #F8F8F8" },
-                                    }}
-                                >
-                                    <TableCell sx={{ border: "none" }}>
-                                        <img src="https://media.istockphoto.com/id/1419922260/photo/3d-render-of-a-cat-playing-video-games-with-a-vr-headset.jpg?s=1024x1024&w=is&k=20&c=7GvkQa5vI7Xi_4DZL39dMGZqCLw72oTijNGsiOT_sa4=" style={{ borderRadius: "8px" }} alt="profile pic" width="65px" height="55px" />
-                                    </TableCell>
-                                    <TableCell sx={{ border: "none" }}>
-                                        {editField === student.id ? (
-                                            <input
-                                                type="text"
-                                                name='name'
-                                                defaultValue={student.name}
-                                                onChange={(e) => handleEditInputChange(e, student)}
-                                            />
-                                        ) : (
-                                            <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
-                                                {student.name}
-                                            </CustomTypo>
-                                        )}
-                                    </TableCell>
-                                    <TableCell align="left" sx={{ border: "none" }}>
-                                        {editField === student.id ? (
-                                            <input
-                                                type="text"
-                                                name='email'
-                                                defaultValue={student.email}
-                                                onChange={(e) => handleEditInputChange(e, student)}
-                                            />
-                                        ) : (
-                                            <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
-                                                {student.email}
-                                            </CustomTypo>
-                                        )}
-                                    </TableCell>
-                                    <TableCell align="left" sx={{ border: "none" }}>
-                                        {editField === student.id ? (
-                                            <input
-                                                type="text"
-                                                name="phone"
-                                                defaultValue={student.phone}
-                                                onChange={(e) => handleEditInputChange(e, student)}
-                                            />
-                                        ) : (
-                                            <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
-                                                {student.phone}
-                                            </CustomTypo>
-                                        )}
-                                    </TableCell>
-                                    <TableCell align="left" sx={{ border: "none" }}>
-                                        {editField === student.id ? (
-                                            <input
-                                                type="text"
-                                                name="enrollNumber"
-                                                defaultValue={student.enrollNumber}
-                                                onChange={(e) => handleEditInputChange(e, student)}
-                                            />
-                                        ) : (
-                                            <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
-                                                {student.enrollNumber}
-                                            </CustomTypo>
-                                        )}
-                                    </TableCell>
-                                    <TableCell align="left" sx={{ border: "none" }}>
-                                        {editField === student.id ? (
-                                            <input
-                                                type="date"
-                                                name="dateOfAdmission"
-                                                defaultValue={student.dateOfAdmission}
-                                                onChange={(e) => handleEditInputChange(e, student)}
-                                            />
-                                        ) : (
-                                            <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
-                                                {student.dateOfAdmission}
-                                            </CustomTypo>
-                                        )}
-                                    </TableCell>
-                                    <TableCell align="center" sx={{ border: "none" }}>
-                                        <Box sx={{ display: "flex", gap: "33PX" }}>
-                                            {
-                                                editField === student.id ? <CustomButton width="50px" height="25px" fontSize="10px" onClick={() => updateStudent(student)}>Update</CustomButton>
-                                                    :
-                                                    <img src={editIcon} alt='view' style={{ cursor: "pointer" }} onClick={() => handleEditStudent(student)} />
-                                            }
-                                            <img src={deleteIcon} alt='view' style={{ cursor: "pointer" }} onClick={() => { if (editField) return; setOpenDeleteStudent(true); setDeleteUser(student) }} />
+                            {emptyData ?
+                                <TableRow>
+                                    <TableCell colSpan={7} rowSpan={7}>
+                                        <Box sx={{ backgroundColor: "red", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                            <h1>Empty Data</h1>
                                         </Box>
                                     </TableCell>
                                 </TableRow>
-                            ))}
+                                :
+                                currentPageData.slice(startIndex, endIndex).map((student, index) => (
+                                    <TableRow
+                                        key={index}
+                                        sx={{
+                                            '&:last-child td, &:last-child th': { border: 0 }, backgroundColor: "#FFFFFF"
+                                            , '&:not(:last-child) td, &:not(:last-child) th': { borderBottom: "10px solid #F8F8F8" },
+                                        }}
+                                    >
+                                        <TableCell sx={{ border: "none" }}>
+                                            <img src="https://media.istockphoto.com/id/1419922260/photo/3d-render-of-a-cat-playing-video-games-with-a-vr-headset.jpg?s=1024x1024&w=is&k=20&c=7GvkQa5vI7Xi_4DZL39dMGZqCLw72oTijNGsiOT_sa4=" style={{ borderRadius: "8px" }} alt="profile pic" width="65px" height="55px" />
+                                        </TableCell>
+                                        <TableCell sx={{ border: "none" }}>
+                                            {editField === student.id ? (
+                                                <input
+                                                    type="text"
+                                                    name='name'
+                                                    defaultValue={student.name}
+                                                    onChange={(e) => handleEditInputChange(e, student)}
+                                                />
+                                            ) : (
+                                                <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
+                                                    {student.name}
+                                                </CustomTypo>
+                                            )}
+                                        </TableCell>
+                                        <TableCell align="left" sx={{ border: "none" }}>
+                                            {editField === student.id ? (
+                                                <input
+                                                    type="text"
+                                                    name='email'
+                                                    defaultValue={student.email}
+                                                    onChange={(e) => handleEditInputChange(e, student)}
+                                                />
+                                            ) : (
+                                                <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
+                                                    {student.email}
+                                                </CustomTypo>
+                                            )}
+                                        </TableCell>
+                                        <TableCell align="left" sx={{ border: "none" }}>
+                                            {editField === student.id ? (
+                                                <input
+                                                    type="text"
+                                                    name="phone"
+                                                    defaultValue={student.phone}
+                                                    onChange={(e) => handleEditInputChange(e, student)}
+                                                />
+                                            ) : (
+                                                <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
+                                                    {student.phone}
+                                                </CustomTypo>
+                                            )}
+                                        </TableCell>
+                                        <TableCell align="left" sx={{ border: "none" }}>
+                                            {editField === student.id ? (
+                                                <input
+                                                    type="text"
+                                                    name="enrollNumber"
+                                                    defaultValue={student.enrollNumber}
+                                                    onChange={(e) => handleEditInputChange(e, student)}
+                                                />
+                                            ) : (
+                                                <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
+                                                    {student.enrollNumber}
+                                                </CustomTypo>
+                                            )}
+                                        </TableCell>
+                                        <TableCell align="left" sx={{ border: "none" }}>
+                                            {editField === student.id ? (
+                                                <input
+                                                    type="date"
+                                                    name="dateOfAdmission"
+                                                    defaultValue={student.dateOfAdmission}
+                                                    onChange={(e) => handleEditInputChange(e, student)}
+                                                />
+                                            ) : (
+                                                <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
+                                                    {student.dateOfAdmission}
+                                                </CustomTypo>
+                                            )}
+                                        </TableCell>
+                                        <TableCell align="center" sx={{ border: "none" }}>
+                                            <Box sx={{ display: "flex", gap: "33PX" }}>
+                                                {
+                                                    editField === student.id ? <CustomButton width="50px" height="25px" fontSize="10px" onClick={() => updateStudent(student)}>Update</CustomButton>
+                                                        :
+                                                        <img src={editIcon} alt='view' style={{ cursor: "pointer" }} onClick={() => handleEditStudent(student)} />
+                                                }
+                                                <img src={deleteIcon} alt='view' style={{ cursor: "pointer" }} onClick={() => { if (editField) return; setOpenDeleteStudent(true); setDeleteUser(student) }} />
+                                            </Box>
+                                        </TableCell>
+                                    </TableRow>
+                                ))
+                            }
                         </TableBody>
                     </Table>
                 </Box>

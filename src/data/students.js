@@ -62,5 +62,5 @@ export const studentsData = [
     phone: "7654321098",
     enrollNumber: "7654321090012345",
     dateOfAdmission: "May 14, 2022",
-  }
+  },
 ];
