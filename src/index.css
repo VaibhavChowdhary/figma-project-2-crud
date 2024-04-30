@@ -15,3 +15,20 @@ body {
     background-color: #feaf00 !important;
   }
 }
+
+input {
+  width: 120px;
+  height: 25px;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+
+}
+
+input:focus {
+  outline: none; 
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid #feaf00;
+}

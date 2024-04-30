@@ -15,13 +15,24 @@ import AddStudent from '../models/AddStudent'
 import DeleteStudent from '../models/DeleteStudent'
 import CustomPagination from '../CustomComponents/CustomPagination'
 import { studentTableHeadData } from "../utils/constants"
-import { showSortButton, hideSortButton, sortByName, sortByDate } from "../utils/helpers"
+import { showSortButton, hideSortButton, sortByName, sortByDate, formatDate } from "../utils/helpers"
 
 export default function Students() {
     const context = useContext(SomeContext);
     const [currPageNo, setCurrPageNo] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(5);
     const [emptyData, setEmptyData] = useState(false)
+    const [editField, setEditField] = useState(null)
+    const [rowData, setRowData] = useState(
+        {
+            id: null,
+            name: null,
+            email: null,
+            phone: null,
+            enrollNumber: null,
+            dateOfAdmission: null
+        },
+    );
     const totalPages = Math.ceil(context.studentData.length / itemsPerPage);
     const [openAddStudent, setOpenAddStudent] = useState(false);
     const [openDeleteStudent, setOpenDeleteStudent] = useState(false);
@@ -30,18 +41,43 @@ export default function Students() {
     const endIndex = Math.min(startIndex + itemsPerPage, context.studentData.length);
     const [currentPageData, setCurrentPageData] = useState(context.studentData);
 
-
-    const handleAddStudent = () => {
-        setOpenAddStudent(true);
+    const handleEditStudent = (student) => {
+        setEditField(student.id);
     }
 
-    const handleDeleteStudent = (student) => {
-        setOpenDeleteStudent(true);
-        setDeleteUser(student)
-    }
+    const handleEditInputChange = (e, student) => {
+        const { name, value } = e.target;
+        setRowData((prevData) => ({
+            ...prevData,
+            [student.id]: {
+                ...prevData[student.id],
+                [name]: value
+            }
+        }));
+    };
+
+    const updateStudent = (student) => {
+        context.setStudentData((prevData) => {
+            return prevData.map((eachStudent) => {
+                if (eachStudent.id === student.id) {
+                    const updatedStudent = {
+                        ...eachStudent,
+                        name: rowData[1].name,
+                        email: rowData[1].email,
+                        phone: rowData[1].phone,
+                        enrollNumber: rowData[1].enrollNumber,
+                        dateOfAdmission: formatDate(rowData[1].dateOfAdmission),
+                    };
+                    setEditField(null);
+                    return updatedStudent;
+                }
+                return eachStudent;
+            });
+        });
+    };
 
     if (currentPageData.slice(startIndex, endIndex).length === 0 && currPageNo > 1) {
-        setCurrPageNo(currPageNo - 1)
+        setCurrPageNo(currPageNo - 1);
     }
 
     const handlePageChange = (value) => {
@@ -53,16 +89,6 @@ export default function Students() {
         setCurrPageNo(1)
         handlePageChange(1)
     };
-
-    const sortName = () => {
-        const sortedNameData = sortByName(context.studentData, 'asc')
-        setCurrentPageData(sortedNameData)
-    }
-
-    const sortDate = () => {
-        const sortedDateData = sortByDate(context.studentData, 'asc')
-        setCurrentPageData(sortedDateData)
-    }
 
     return (
         <>
@@ -76,7 +102,7 @@ export default function Students() {
                         </Box>
                         <Box>
                             <img src={filter} alt='filter' width="14px" height="19.25px" style={{ marginRight: "30px", alignSelf: "center" }} />
-                            <CustomButton fontSize="14px" color="#FFFFFF" padding="13px 27px 14px 26px" backgroundColor="#FEAF00" onClick={handleAddStudent}>
+                            <CustomButton fontSize="14px" color="#FFFFFF" padding="13px 27px 14px 26px" backgroundColor="#FEAF00" onClick={() => { if (editField) return; setOpenAddStudent(true) }}>
                                 ADD NEW STUDENT
                             </CustomButton>
                         </Box>
@@ -87,7 +113,12 @@ export default function Students() {
                             <TableRow sx={{ borderRadius: "8px" }}>
                                 <TableCell sx={{ border: "none" }}>
                                 </TableCell>
-                                <TableCell sx={{ border: "none", display: "flex", justifyContent: "space-between", "&:hover": { cursor: "pointer" } }} onMouseEnter={() => showSortButton("name")} onMouseLeave={() => hideSortButton("name")} onClick={() => sortName()}>
+                                <TableCell sx={{ border: "none", display: "flex", justifyContent: "space-between", "&:hover": { cursor: "pointer" } }} onMouseEnter={() => showSortButton("name")} onMouseLeave={() => hideSortButton("name")}
+                                    onClick={() => {
+                                        if (editField) return;
+                                        const sortedNameData = sortByName(context.studentData, 'asc');
+                                        setCurrentPageData(sortedNameData);
+                                    }}>
                                     <CustomTypo color="#ACACAC" fontSize="12px">Name</CustomTypo>
                                     <img src={filter} alt="filter" width="12px" height="15.25px" style={{ marginRight: "30px", alignSelf: "center", display: "none" }} id="name" />
                                 </TableCell>
@@ -104,7 +135,8 @@ export default function Students() {
                                     <CustomTypo color="#ACACAC" fontSize="12px">Enroll Number</CustomTypo>
                                 </TableCell>
 
-                                <TableCell sx={{ border: "none", display: "flex", justifyContent: "space-between", "&:hover": { cursor: "pointer" } }} onMouseEnter={() => showSortButton("date")} onMouseLeave={() => hideSortButton("date")} onClick={() => sortDate()}>
+                                <TableCell sx={{ border: "none", display: "flex", justifyContent: "space-between", "&:hover": { cursor: "pointer" } }} onMouseEnter={() => showSortButton("date")} onMouseLeave={() => hideSortButton("date")}
+                                    onClick={() => { if (editField) return; const sortedDateData = sortByDate(context.studentData, 'asc'); setCurrentPageData(sortedDateData) }}>
                                     <CustomTypo color="#ACACAC" fontSize="12px">Date of Admission</CustomTypo>
                                     <img src={filter} alt="filter" width="12px" height="15.25px" style={{ marginRight: "30px", alignSelf: "center", display: "none" }} id="date" />
                                 </TableCell>
@@ -123,34 +155,83 @@ export default function Students() {
                                         <img src="https://media.istockphoto.com/id/1419922260/photo/3d-render-of-a-cat-playing-video-games-with-a-vr-headset.jpg?s=1024x1024&w=is&k=20&c=7GvkQa5vI7Xi_4DZL39dMGZqCLw72oTijNGsiOT_sa4=" style={{ borderRadius: "8px" }} alt="profile pic" width="65px" height="55px" />
                                     </TableCell>
                                     <TableCell sx={{ border: "none" }}>
-                                        <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
-                                            {student.name}
-                                        </CustomTypo>
+                                        {editField === student.id ? (
+                                            <input
+                                                type="text"
+                                                name='name'
+                                                defaultValue={student.name}
+                                                onChange={(e) => handleEditInputChange(e, student)}
+                                            />
+                                        ) : (
+                                            <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
+                                                {student.name}
+                                            </CustomTypo>
+                                        )}
                                     </TableCell>
                                     <TableCell align="left" sx={{ border: "none" }}>
-                                        <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
-                                            {student.email}
-                                        </CustomTypo>
+                                        {editField === student.id ? (
+                                            <input
+                                                type="text"
+                                                name='email'
+                                                defaultValue={student.email}
+                                                onChange={(e) => handleEditInputChange(e, student)}
+                                            />
+                                        ) : (
+                                            <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
+                                                {student.email}
+                                            </CustomTypo>
+                                        )}
                                     </TableCell>
                                     <TableCell align="left" sx={{ border: "none" }}>
-                                        <CustomTypo color="#000000" fontSize="14px" fontWeight="500" >
-                                            {student.phone}
-                                        </CustomTypo>
+                                        {editField === student.id ? (
+                                            <input
+                                                type="text"
+                                                name="phone"
+                                                defaultValue={student.phone}
+                                                onChange={(e) => handleEditInputChange(e, student)}
+                                            />
+                                        ) : (
+                                            <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
+                                                {student.phone}
+                                            </CustomTypo>
+                                        )}
                                     </TableCell>
                                     <TableCell align="left" sx={{ border: "none" }}>
-                                        <CustomTypo color="#000000" fontSize="14px" fontWeight="500" >
-                                            {student.enrollNumber}
-                                        </CustomTypo>
+                                        {editField === student.id ? (
+                                            <input
+                                                type="text"
+                                                name="enrollNumber"
+                                                defaultValue={student.enrollNumber}
+                                                onChange={(e) => handleEditInputChange(e, student)}
+                                            />
+                                        ) : (
+                                            <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
+                                                {student.enrollNumber}
+                                            </CustomTypo>
+                                        )}
                                     </TableCell>
                                     <TableCell align="left" sx={{ border: "none" }}>
-                                        <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
-                                            {student.dateOfAdmission}
-                                        </CustomTypo>
+                                        {editField === student.id ? (
+                                            <input
+                                                type="date"
+                                                name="dateOfAdmission"
+                                                defaultValue={student.dateOfAdmission}
+                                                onChange={(e) => handleEditInputChange(e, student)}
+                                            />
+                                        ) : (
+                                            <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
+                                                {student.dateOfAdmission}
+                                            </CustomTypo>
+                                        )}
                                     </TableCell>
                                     <TableCell align="center" sx={{ border: "none" }}>
                                         <Box sx={{ display: "flex", gap: "33PX" }}>
-                                            <img src={editIcon} alt='view' style={{ cursor: "pointer" }} />
-                                            <img src={deleteIcon} alt='view' style={{ cursor: "pointer" }} onClick={() => handleDeleteStudent(student)} />
+                                            {
+                                                editField === student.id ? <CustomButton width="50px" height="25px" fontSize="10px" onClick={() => updateStudent(student)}>Update</CustomButton>
+                                                    :
+                                                    <img src={editIcon} alt='view' style={{ cursor: "pointer" }} onClick={() => handleEditStudent(student)} />
+                                            }
+                                            <img src={deleteIcon} alt='view' style={{ cursor: "pointer" }} onClick={() => { if (editField) return; setOpenDeleteStudent(true); setDeleteUser(student) }} />
                                         </Box>
                                     </TableCell>
                                 </TableRow>
@@ -178,7 +259,7 @@ export default function Students() {
                         </Select>
                     </Box>
                 </Box>
-            </Box>
+            </Box >
             <AddStudent openAddStudent={openAddStudent} setOpenAddStudent={setOpenAddStudent} />
             <DeleteStudent openDeleteStudent={openDeleteStudent} setOpenDeleteStudent={setOpenDeleteStudent} userToDelete={deleteUser} />
         </>
