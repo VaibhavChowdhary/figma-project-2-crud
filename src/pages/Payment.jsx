@@ -3,37 +3,37 @@ import CustomTypo from '../CustomComponents/CustomTypo';
 import filter from "../assets/filter.png";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import eye from "../assets/eye.png"
 import { SomeContext } from '../context/context'
 import CustomPagination from '../CustomComponents/CustomPagination';
+import { showSortButton, hideSortButton, sortByName, sortByDate } from "../utils/helpers"
+
 
 export default function Payment() {
     const context = useContext(SomeContext);
+    const rows = [
+        { name: "vaibhav", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "27 Nov, 2008" },
+        { name: "vervr", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "31 Jan, 2022" },
+        { name: "vcewcewc", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "01 Jan, 2021" },
+        { name: "iuhyg", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "24 Mar, 2011" },
+        { name: "wqqdq", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "07 Apr, 2013" },
+        { name: "nmi", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "21 Dec, 2017" },
+        { name: "ttrbyr", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "13 Mar, 2009" },
+        { name: "gfbhbby", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "28 Dec, 2017" },
+        { name: "dcrv", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "12 Feb, 2015" },
+        { name: "tyhty", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "08 Dec, 2019" },
+        { name: "ikui", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "19 May, 2007" },
+    ]
     const [currPageNo, setCurrPageNo] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(5);
-    const rows = [
-        { name: "vaibhav", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "08 Dec, 2021" },
-        { name: "vervr", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "08 Dec, 2021" },
-        { name: "vcewcewc", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "08 Dec, 2021" },
-        { name: "iuhyg", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "08 Dec, 2021" },
-        { name: "wqqdq", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "08 Dec, 2021" },
-        { name: "nmi", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "08 Dec, 2021" },
-        { name: "ttrbyr", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "08 Dec, 2021" },
-        { name: "gfbhbby", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "08 Dec, 2021" },
-        { name: "dcrv", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "08 Dec, 2021" },
-        { name: "tyhty", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "08 Dec, 2021" },
-        { name: "ikui", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "08 Dec, 2021" },
-    ]
     const totalPages = Math.ceil(rows.length / itemsPerPage);
-
     const startIndex = (currPageNo - 1) * itemsPerPage;
     const endIndex = Math.min(startIndex + itemsPerPage, rows.length);
-
-    const currentPageData = rows.slice(startIndex, endIndex);
+    const [currentPageData, setCurrentPageData] = useState(rows);
 
     const handlePageChange = (value) => {
         setCurrPageNo(value);
@@ -41,7 +41,19 @@ export default function Payment() {
 
     const handleItemsPerPage = (event) => {
         setItemsPerPage(event.target.value);
+        setCurrPageNo(1)
+        handlePageChange(1)
     };
+
+    const sortName = () => {
+        const sortedData = sortByName(rows, 'asc')
+        setCurrentPageData(sortedData)
+    }
+
+    const sortDate = () => {
+        const sortedData = sortByDate(rows, 'asc')
+        setCurrentPageData(sortedData)
+    }
 
     return (
         <>
@@ -57,10 +69,11 @@ export default function Payment() {
                     <Table sx={{ minWidth: context.openSidebar ? "100%" : `calc(100% - 240px)` }}>
                         <TableHead>
                             <TableRow>
-                                <TableCell sx={{ border: "none" }}>
+                                <TableCell sx={{ border: "none", display: "flex", justifyContent: "space-between", "&:hover": { cursor: "pointer" } }} onMouseEnter={() => showSortButton("name")} onMouseLeave={() => hideSortButton("name")} onClick={() => sortName()}>
                                     <CustomTypo color="#ACACAC" fontSize="12px" >
                                         Name
                                     </CustomTypo>
+                                    <img src={filter} alt="filter" width="12px" height="15.25px" style={{ marginRight: "30px", alignSelf: "center", display: "none" }} id="name" />
                                 </TableCell>
                                 <TableCell sx={{ border: "none" }}>
                                     <CustomTypo color="#ACACAC" fontSize="12px" >
@@ -82,15 +95,16 @@ export default function Payment() {
                                         Balance amount
                                     </CustomTypo>
                                 </TableCell>
-                                <TableCell sx={{ border: "none" }} >
+                                <TableCell sx={{ border: "none", display: "flex", justifyContent: "space-between", "&:hover": { cursor: "pointer" } }} onMouseEnter={() => showSortButton("date")} onMouseLeave={() => hideSortButton("date")} onClick={() => sortDate()}>
                                     <CustomTypo color="#ACACAC" fontSize="12px" >
                                         Date
                                     </CustomTypo>
+                                    <img src={filter} alt="filter" width="12px" height="15.25px" style={{ marginRight: "30px", alignSelf: "center", display: "none" }} id="date" />
                                 </TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {currentPageData.map((row, index) => (
+                            {currentPageData.slice(startIndex, endIndex).map((row, index) => (
                                 <TableRow
                                     key={index}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 }, backgroundColor: index % 2 === 0 ? "#FFFFFF" : "#F8F8F8" }}
@@ -124,6 +138,7 @@ export default function Payment() {
                                         <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
                                             {row.date}
                                         </CustomTypo>
+
                                     </TableCell>
                                     <TableCell align="right" sx={{ border: "none" }}>
                                         <img src={eye} alt='view' />

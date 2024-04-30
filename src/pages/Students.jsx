@@ -20,18 +20,16 @@ import { showSortButton, hideSortButton, sortByName, sortByDate } from "../utils
 export default function Students() {
     const context = useContext(SomeContext);
     const [currPageNo, setCurrPageNo] = useState(1);
-    const [currentPageData, setCurrentPageData] = useState(context.studentData);
     const [itemsPerPage, setItemsPerPage] = useState(5);
+    const [emptyData, setEmptyData] = useState(false)
     const totalPages = Math.ceil(context.studentData.length / itemsPerPage);
     const [openAddStudent, setOpenAddStudent] = useState(false);
     const [openDeleteStudent, setOpenDeleteStudent] = useState(false);
     const [deleteUser, setDeleteUser] = useState();
     const startIndex = (currPageNo - 1) * itemsPerPage;
     const endIndex = Math.min(startIndex + itemsPerPage, context.studentData.length);
+    const [currentPageData, setCurrentPageData] = useState(context.studentData);
 
-    useEffect(() => {
-        setCurrentPageData(() => currentPageData.slice(startIndex, endIndex))
-    }, [])
 
     const handleAddStudent = () => {
         setOpenAddStudent(true);
@@ -42,22 +40,28 @@ export default function Students() {
         setDeleteUser(student)
     }
 
+    if (currentPageData.slice(startIndex, endIndex).length === 0 && currPageNo > 1) {
+        setCurrPageNo(currPageNo - 1)
+    }
+
     const handlePageChange = (value) => {
         setCurrPageNo(value);
     };
 
     const handleItemsPerPage = (event) => {
         setItemsPerPage(event.target.value);
+        setCurrPageNo(1)
+        handlePageChange(1)
     };
 
     const sortName = () => {
-        const sortedData = sortByName(currentPageData, 'asc')
-        setCurrentPageData(sortedData.slice(startIndex, endIndex))
+        const sortedNameData = sortByName(context.studentData, 'asc')
+        setCurrentPageData(sortedNameData)
     }
 
     const sortDate = () => {
-        const sortedData = sortByDate(currentPageData, 'asc')
-        setCurrentPageData(sortedData.slice(startIndex, endIndex))
+        const sortedDateData = sortByDate(context.studentData, 'asc')
+        setCurrentPageData(sortedDateData)
     }
 
     return (
@@ -107,7 +111,7 @@ export default function Students() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {currentPageData.map((student, index) => (
+                            {currentPageData.slice(startIndex, endIndex).map((student, index) => (
                                 <TableRow
                                     key={index}
                                     sx={{
