@@ -1,6 +1,9 @@
 export const formatDate = (dateString) => {
-  const isHyphenSeparated = dateString.indexOf("-") !== -1;
-  if (isHyphenSeparated) {
+  const isAlreadyFormatted = /^[a-zA-Z]{3}\s\d{1,2},\s\d{4}$/.test(dateString);
+
+  if (isAlreadyFormatted) {
+    return dateString;
+  } else {
     const [year, month, day] = dateString.split("-");
     const dateObj = new Date(year, parseInt(month) - 1, day);
     return dateObj.toLocaleDateString("en-US", {

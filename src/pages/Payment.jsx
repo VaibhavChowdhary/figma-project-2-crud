@@ -16,17 +16,17 @@ import { showSortButton, hideSortButton, sortByName, sortByDate } from "../utils
 export default function Payment() {
     const context = useContext(SomeContext);
     const rows = [
-        { name: "vaibhav", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "27 Nov, 2008" },
-        { name: "vervr", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "31 Jan, 2022" },
-        { name: "vcewcewc", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "01 Jan, 2021" },
-        { name: "iuhyg", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "24 Mar, 2011" },
-        { name: "wqqdq", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "07 Apr, 2013" },
-        { name: "nmi", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "21 Dec, 2017" },
-        { name: "ttrbyr", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "13 Mar, 2009" },
-        { name: "gfbhbby", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "28 Dec, 2017" },
-        { name: "dcrv", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "12 Feb, 2015" },
-        { name: "tyhty", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "08 Dec, 2019" },
-        { name: "ikui", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "19 May, 2007" },
+        { name: "vaibhav", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "Jan 27, 2008" },
+        { name: "vervr", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "Jan 31, 2022" },
+        { name: "vcewcewc", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "Jan 01, 2021" },
+        { name: "iuhyg", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "Mar 24, 2011" },
+        { name: "wqqdq", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "Apr 07, 2013" },
+        { name: "nmi", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "Dec 21, 2017" },
+        { name: "ttrbyr", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "Mar 13, 2009" },
+        { name: "gfbhbby", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "Dec 28, 2017" },
+        { name: "dcrv", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "Feb 12, 2015" },
+        { name: "tyhty", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "Dec 08, 2019" },
+        { name: "ikui", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "May 19, 2007" },
     ]
     const [currPageNo, setCurrPageNo] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(5);

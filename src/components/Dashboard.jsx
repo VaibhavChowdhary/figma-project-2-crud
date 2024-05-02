@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Header from './Header'
 import Sidebar from './Sidebar'
-import { SomeContext } from '../context/context'
+import { ThemeContext, SomeContext } from '../context/context'
 import { Route, Routes } from 'react-router-dom';
 import { Box } from '@mui/material';
 import Home from '../pages/Home';
@@ -12,6 +12,7 @@ import { studentsData } from "../data/students"
 export default function Dashboard() {
   const [openSidebar, setOpenSidebar] = useState(false);
   const [studentData, setStudentData] = useState(studentsData)
+
 
   return (
     <>

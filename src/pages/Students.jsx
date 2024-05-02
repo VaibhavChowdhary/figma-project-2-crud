@@ -43,6 +43,17 @@ export default function Students() {
 
     const handleEditStudent = (student) => {
         setEditField(student.id);
+        setRowData(
+            {
+                id: student.id,
+                name: student.name,
+                email: student.email,
+                phone: student.phone,
+                enrollNumber: student.enrollNumber,
+                dateOfAdmission: student.dateOfAdmission
+            }
+
+        )
     }
 
     useEffect(() => {
@@ -58,10 +69,7 @@ export default function Students() {
         const { name, value } = e.target;
         setRowData((prevData) => ({
             ...prevData,
-            [student.id]: {
-                ...prevData[student.id],
-                [name]: value
-            }
+            [name]: value
         }));
     };
 
@@ -70,13 +78,14 @@ export default function Students() {
             return prevData.map((eachStudent) => {
                 if (eachStudent.id === student.id) {
                     const updatedStudent = {
-                        ...eachStudent,
-                        name: rowData[1].name,
-                        email: rowData[1].email,
-                        phone: rowData[1].phone,
-                        enrollNumber: rowData[1].enrollNumber,
-                        dateOfAdmission: formatDate(rowData[1].dateOfAdmission),
+                        ...rowData,
+                        name: rowData.name,
+                        email: rowData.email,
+                        phone: rowData.phone,
+                        enrollNumber: rowData.enrollNumber,
+                        dateOfAdmission: formatDate(rowData?.dateOfAdmission),
                     };
+                    console.log(rowData, "this is update student")
                     setEditField(null);
                     return updatedStudent;
                 }
@@ -151,8 +160,8 @@ export default function Students() {
                             {emptyData ?
                                 <TableRow>
                                     <TableCell colSpan={7} rowSpan={7}>
-                                        <Box sx={{ backgroundColor: "red", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                                            <h1>Empty Data</h1>
+                                        <Box sx={{ backgroundColor: "#edabab", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                            <CustomTypo fontSize="40px" color="red" fontWeight="300" >No Data to Show!</CustomTypo>
                                         </Box>
                                     </TableCell>
                                 </TableRow>

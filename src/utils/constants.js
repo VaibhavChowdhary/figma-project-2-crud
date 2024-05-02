@@ -11,9 +11,29 @@ export const style = {
 };
 
 export const studentTableHeadData = [
-  "","Name","Email","Phone","Enroll Number","Date of Admission"
-]
+  "",
+  "Name",
+  "Email",
+  "Phone",
+  "Enroll Number",
+  "Date of Admission",
+];
 
 export const paymentTableHeadData = [
-  "Name","Payment Schedule","Bill Number","Amount Paid","Balance amount","Date"
-]
+  "Name",
+  "Payment Schedule",
+  "Bill Number",
+  "Amount Paid",
+  "Balance amount",
+  "Date",
+];
+
+export const lightTheme = {
+  background: "#ffffff",
+  text: "#222020",
+};
+
+export const darkTheme = {
+  background: "#302e2e",
+  text: "#ffffff",
+};

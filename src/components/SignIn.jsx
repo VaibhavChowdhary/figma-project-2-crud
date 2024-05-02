@@ -9,7 +9,7 @@ export default function SignIn() {
 
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
-
+  const [invalidCredentials, setInvalidCredentials] = useState(false);
   const emailRef = useRef();
   const passwordRef = useRef();
 
@@ -37,9 +37,12 @@ export default function SignIn() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(emailRef.current.value)
-    console.log(passwordRef.current.value)
-    navigate('/dashboard/home')
+    if (!emailError && emailRef.current.value !== undefined && passwordRef.current.value !== undefined && !passwordError) {
+      setInvalidCredentials(false)
+      navigate('/dashboard/home')
+    } else {
+      setInvalidCredentials(true)
+    }
   };
 
   return (
@@ -57,7 +60,7 @@ export default function SignIn() {
         <Box
           sx={{
             width: "475px",
-            height: "550px",
+
             backgroundColor: "#FFFFFF",
             borderRadius: "20px",
             border: "1px solid #000000",
@@ -95,11 +98,11 @@ export default function SignIn() {
               <Box sx={{ display: "flex", justifyContent: "center", flexDirection: "column", gap: 2, marginTop: "50px" }}>
                 <Box >
                   <CustomTypo fontSize={14} color="#6C6C6C">Email</CustomTypo>
-                  <CustomTextField ref={emailRef} onChange={handleEmailChange} placeholder="Enter your email" error={emailError} helperText={emailError && "Enter valid Email"} name="email" width='415px' height='44px' marginTop="10px" />
+                  <CustomTextField ref={emailRef} onChange={handleEmailChange} placeholder="Enter your email" error={emailError || invalidCredentials} helperText={(emailError || invalidCredentials) && "Enter valid Email"} name="email" width='415px' height='44px' marginTop="10px" />
                 </Box>
                 <Box>
                   <CustomTypo fontSize={14} color="#6C6C6C">Password</CustomTypo>
-                  <CustomTextField ref={passwordRef} onChange={handlePasswordChange} placeholder="Enter your password" error={passwordError} helperText={passwordError && "Password length should be in 5 to 10"} name="password" type="password" width='415px' height='44px' marginTop="10px" />
+                  <CustomTextField ref={passwordRef} onChange={handlePasswordChange} placeholder="Enter your password" error={passwordError || invalidCredentials} helperText={(passwordError || invalidCredentials) && "Password length should be in 5 to 10"} name="password" type="password" width='415px' height='44px' marginTop="10px" />
                 </Box>
                 <Box sx={{ marginTop: "10px" }}>
                   <CustomButton width="415px" backgroundColor="#FEAF00" type="submit">
@@ -107,7 +110,7 @@ export default function SignIn() {
                       SIGN IN
                     </CustomTypo>
                   </CustomButton>
-                  <Box sx={{ marginTop: "27px", display: "flex", gap: 0.5, justifyContent: "center", alignItems: "center" }}>
+                  <Box sx={{ marginTop: "27px", marginBottom: "41px", display: "flex", gap: 0.5, justifyContent: "center", alignItems: "center" }}>
                     <CustomTypo color="#6C6C6C">Forgot your password?</CustomTypo>
                     <Link to='/signup' style={{ textDecoration: "underline", color: "#FEAF00", fontSize: '14px', fontWeight: "500" }}>
                       Reset Password

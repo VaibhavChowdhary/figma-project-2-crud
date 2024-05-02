@@ -11,6 +11,7 @@ const Header = () => {
     const handleClick = () => {
         xyz.setOpenSidebar(!xyz.openSidebar);
     }
+
     return (
         <>
             <Box>
