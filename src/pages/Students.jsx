@@ -1,4 +1,4 @@
-import { Box, Divider, MenuItem, Select } from '@mui/material'
+import { Box, Divider, MenuItem, Select, TableContainer } from '@mui/material'
 import React, { useContext, useEffect, useState } from 'react'
 import CustomTypo from '../CustomComponents/CustomTypo'
 import filter from "../assets/filter.png"
@@ -16,12 +16,14 @@ import DeleteStudent from '../models/DeleteStudent'
 import CustomPagination from '../CustomComponents/CustomPagination'
 import { studentTableHeadData } from "../utils/constants"
 import { showSortButton, hideSortButton, sortByName, sortByDate, formatDate } from "../utils/helpers"
+import { validateInfo } from '../utils/validate';
 import CustomTextfield from '../CustomComponents/CustomTextfield'
 
 export default function Students() {
     const context = useContext(SomeContext);
     const [currPageNo, setCurrPageNo] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(5);
+    const [validationError, setValidationError] = React.useState([])
     const [emptyData, setEmptyData] = useState(false)
     const [editField, setEditField] = useState(null)
     const [rowData, setRowData] = useState(
@@ -86,9 +88,16 @@ export default function Students() {
                         enrollNumber: rowData.enrollNumber,
                         dateOfAdmission: formatDate(rowData?.dateOfAdmission),
                     };
-                    console.log(rowData, "this is update student")
-                    setEditField(null);
-                    return updatedStudent;
+                    try {
+                        const validateProvidedInfo = validateInfo(updatedStudent);
+                        if (validateProvidedInfo) {
+                            setEditField(null);
+                            setValidationError([])
+                            return updatedStudent;
+                        }
+                    } catch (error) {
+                        setValidationError(error.message.split(","))
+                    }
                 }
                 return eachStudent;
             });
@@ -157,7 +166,7 @@ export default function Students() {
                                 </TableCell>
                             </TableRow>
                         </TableHead>
-                        <TableBody>
+                        <TableBody sx={{ height: "500px", overflow: 'auto' }}>
                             {emptyData ?
                                 <TableRow>
                                     <TableCell colSpan={7} rowSpan={7}>
@@ -183,6 +192,8 @@ export default function Students() {
                                                 <CustomTextfield
                                                     className="editFields"
                                                     type="text"
+                                                    error={validationError.includes("name error")}
+                                                    helperText={validationError.includes("name error") && "Name cannot be Empty!!"}
                                                     name='name'
                                                     defaultValue={student.name}
                                                     onChange={(e) => handleEditInputChange(e, student)}
@@ -198,6 +209,8 @@ export default function Students() {
                                                 <CustomTextfield
                                                     className="editFields"
                                                     type="text"
+                                                    error={validationError.includes("email error")}
+                                                    helperText={validationError.includes("email error") && "Enter Valid Email!!"}
                                                     name='email'
                                                     defaultValue={student.email}
                                                     onChange={(e) => handleEditInputChange(e, student)}
@@ -212,6 +225,8 @@ export default function Students() {
                                             {editField === student.id ? (
                                                 <CustomTextfield
                                                     className="editFields"
+                                                    error={validationError.includes("phone error")}
+                                                    helperText={validationError.includes("phone error") && "length must be 10!!"}
                                                     type="text"
                                                     name="phone"
                                                     defaultValue={student.phone}
@@ -227,6 +242,8 @@ export default function Students() {
                                             {editField === student.id ? (
                                                 <CustomTextfield
                                                     type="text"
+                                                    error={validationError.includes("enrollNo error")}
+                                                    helperText={validationError.includes("enrollNo error") && "enroll Number cannot be empty!!"}
                                                     className="editFields"
                                                     name="enrollNumber"
                                                     defaultValue={student.enrollNumber}
@@ -243,6 +260,8 @@ export default function Students() {
                                                 <CustomTextfield
                                                     type="date"
                                                     className="editFields"
+                                                    error={validationError.includes("date error")}
+                                                    helperText={validationError.includes("date error") && "Enter Valid Date!!"}
                                                     name="dateOfAdmission"
                                                     defaultValue={student.dateOfAdmission}
                                                     onChange={(e) => handleEditInputChange(e, student)}

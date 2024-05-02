@@ -13,7 +13,7 @@ export const validatePassword = (password) => {
   }
 };
 
-function validatePhoneNumber(phoneNumber) {
+export function validatePhoneNumber(phoneNumber) {
   const regex = /^\d{10}$/;
   return regex.test(phoneNumber);
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import { TextField } from "@mui/material";
 
-const CustomTextfield = React.forwardRef(({ error,...rest}, ref) => {
+const CustomTextfield = React.forwardRef(({ error, ...rest }, ref) => {
   return (
     <>
       <TextField
@@ -18,12 +18,12 @@ const CustomTextfield = React.forwardRef(({ error,...rest}, ref) => {
               color: "#F59184",
               lineHeight: '1em',
             },
-         
+
             ...rest
           },
           ...rest
         }}
-        
+
         InputLabelProps={{
           shrink: true,
           ...rest
