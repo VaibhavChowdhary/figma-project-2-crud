@@ -166,7 +166,7 @@ export default function Students() {
                                 </TableCell>
                             </TableRow>
                         </TableHead>
-                        <TableBody sx={{ height: "500px", overflow: 'auto' }}>
+                        <TableBody >
                             {emptyData ?
                                 <TableRow>
                                     <TableCell colSpan={7} rowSpan={7}>
