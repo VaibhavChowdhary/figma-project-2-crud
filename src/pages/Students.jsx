@@ -26,16 +26,7 @@ export default function Students() {
     const [validationError, setValidationError] = React.useState([])
     const [emptyData, setEmptyData] = useState(false)
     const [editField, setEditField] = useState(null)
-    const [rowData, setRowData] = useState(
-        {
-            id: null,
-            name: null,
-            email: null,
-            phone: null,
-            enrollNumber: null,
-            dateOfAdmission: null
-        },
-    );
+    const [rowData, setRowData] = useState({ id: null, name: null, email: null, phone: null, enrollNumber: null, dateOfAdmission: null });
     const totalPages = Math.ceil(context.studentData.length / itemsPerPage);
     const [openAddStudent, setOpenAddStudent] = useState(false);
     const [openDeleteStudent, setOpenDeleteStudent] = useState(false);
@@ -55,7 +46,6 @@ export default function Students() {
                 enrollNumber: student.enrollNumber,
                 dateOfAdmission: student.dateOfAdmission
             }
-
         )
     }
 
@@ -65,7 +55,7 @@ export default function Students() {
         } else if (currentPageData.slice(startIndex, endIndex).length === 0 && currPageNo === 1) {
             setEmptyData(true)
         }
-    }, [currentPageData, currPageNo, itemsPerPage, startIndex, endIndex]);
+    }, [currentPageData, currPageNo, itemsPerPage, startIndex, endIndex, context]);
 
 
     const handleEditInputChange = (e, student) => {

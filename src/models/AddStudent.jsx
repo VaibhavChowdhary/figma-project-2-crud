@@ -24,6 +24,8 @@ export default function AddStudent({ openAddStudent, setOpenAddStudent }) {
         const form = event.target;
         const formData = new FormData(form);
         const studentObject = Object.fromEntries([...formData.entries()]);
+        studentObject.id = context.studentData.length + 1
+        console.log("this is student object", studentObject)
         try {
             const validateProvidedInfo = validateInfo(studentObject)
             if (validateProvidedInfo) {
@@ -33,7 +35,6 @@ export default function AddStudent({ openAddStudent, setOpenAddStudent }) {
                 setValidationError([])
                 setTimeout(() => {
                     form.reset();
-                    console.log(context.studentData)
                 }, [1000])
             }
         } catch (error) {
