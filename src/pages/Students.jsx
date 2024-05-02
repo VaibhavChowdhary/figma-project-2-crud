@@ -16,6 +16,7 @@ import DeleteStudent from '../models/DeleteStudent'
 import CustomPagination from '../CustomComponents/CustomPagination'
 import { studentTableHeadData } from "../utils/constants"
 import { showSortButton, hideSortButton, sortByName, sortByDate, formatDate } from "../utils/helpers"
+import CustomTextfield from '../CustomComponents/CustomTextfield'
 
 export default function Students() {
     const context = useContext(SomeContext);
@@ -179,7 +180,8 @@ export default function Students() {
                                         </TableCell>
                                         <TableCell sx={{ border: "none" }}>
                                             {editField === student.id ? (
-                                                <input
+                                                <CustomTextfield
+                                                    className="editFields"
                                                     type="text"
                                                     name='name'
                                                     defaultValue={student.name}
@@ -193,7 +195,8 @@ export default function Students() {
                                         </TableCell>
                                         <TableCell align="left" sx={{ border: "none" }}>
                                             {editField === student.id ? (
-                                                <input
+                                                <CustomTextfield
+                                                    className="editFields"
                                                     type="text"
                                                     name='email'
                                                     defaultValue={student.email}
@@ -207,7 +210,8 @@ export default function Students() {
                                         </TableCell>
                                         <TableCell align="left" sx={{ border: "none" }}>
                                             {editField === student.id ? (
-                                                <input
+                                                <CustomTextfield
+                                                    className="editFields"
                                                     type="text"
                                                     name="phone"
                                                     defaultValue={student.phone}
@@ -221,8 +225,9 @@ export default function Students() {
                                         </TableCell>
                                         <TableCell align="left" sx={{ border: "none" }}>
                                             {editField === student.id ? (
-                                                <input
+                                                <CustomTextfield
                                                     type="text"
+                                                    className="editFields"
                                                     name="enrollNumber"
                                                     defaultValue={student.enrollNumber}
                                                     onChange={(e) => handleEditInputChange(e, student)}
@@ -235,8 +240,9 @@ export default function Students() {
                                         </TableCell>
                                         <TableCell align="left" sx={{ border: "none" }}>
                                             {editField === student.id ? (
-                                                <input
+                                                <CustomTextfield
                                                     type="date"
+                                                    className="editFields"
                                                     name="dateOfAdmission"
                                                     defaultValue={student.dateOfAdmission}
                                                     onChange={(e) => handleEditInputChange(e, student)}

@@ -16,17 +16,16 @@ body {
   }
 }
 
-input {
+.editFields {
   width: 120px;
   height: 25px;
   border-top: none;
   border-left: none;
   border-right: none;
-
 }
 
-input:focus {
-  outline: none; 
+.editFields:focus {
+  outline: none;
   border-top: none;
   border-left: none;
   border-right: none;
