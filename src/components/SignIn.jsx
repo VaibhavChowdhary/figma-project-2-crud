@@ -5,10 +5,12 @@ import CustomTextField from "../CustomComponents/CustomTextfield"
 import CustomButton from "../CustomComponents/CustomButton"
 import { Link, useNavigate } from "react-router-dom";
 import { validateEmail, validatePassword } from "../utils/validate";
+import { LoadingButton } from "@mui/lab";
 export default function SignIn() {
 
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [invalidCredentials, setInvalidCredentials] = useState(false);
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -37,10 +39,20 @@ export default function SignIn() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setLoading(true);
     if (!emailError && emailRef.current.value !== undefined && passwordRef.current.value !== undefined && !passwordError) {
       setInvalidCredentials(false)
-      navigate('/dashboard/home')
+      setEmailError(false)
+      setPasswordError(false)
+      setTimeout(() => {
+        setLoading(false);
+        navigate('/dashboard/home')
+      }, [1500])
+
     } else {
+      setTimeout(() => {
+        setLoading(false);
+      }, [300])
       setInvalidCredentials(true)
     }
   };
@@ -105,11 +117,32 @@ export default function SignIn() {
                   <CustomTextField ref={passwordRef} onChange={handlePasswordChange} placeholder="Enter your password" error={passwordError || invalidCredentials} helperText={(passwordError || invalidCredentials) && "Password length should be in 5 to 10"} name="password" type="password" width='415px' height='44px' marginTop="10px" />
                 </Box>
                 <Box sx={{ marginTop: "10px" }}>
-                  <CustomButton width="415px" backgroundColor="#FEAF00" type="submit">
+                  {/* <CustomButton width="415px" backgroundColor="#FEAF00" type="submit">
                     <CustomTypo fontSize={14}>
                       SIGN IN
                     </CustomTypo>
-                  </CustomButton>
+                  </CustomButton> */}
+                  <LoadingButton
+                    type="submit"
+                    sx={{
+                      width: "415px",
+                      height: "44px",
+                      borderRadius: "4px",
+                      backgroundColor: "#FEAF00",
+                      color: "#FFFFFF",
+                      textTransform: "capitalize",
+                      '&:hover': { backgroundColor: '#FEAF00' },
+                      '&:active': { backgroundColor: '#FEAF00' },
+                      maxWidth: "415px",
+                      maxHeight: "44px",
+                    }}
+                    loading={loading}
+                    variant="contained"
+                  >
+                    <CustomTypo fontSize={14}>
+                      SIGN IN
+                    </CustomTypo>
+                  </LoadingButton>
                   <Box sx={{ marginTop: "27px", marginBottom: "41px", display: "flex", gap: 0.5, justifyContent: "center", alignItems: "center" }}>
                     <CustomTypo color="#6C6C6C">Forgot your password?</CustomTypo>
                     <Link to='/signup' style={{ textDecoration: "underline", color: "#FEAF00", fontSize: '14px', fontWeight: "500" }}>
@@ -120,8 +153,8 @@ export default function SignIn() {
               </Box>
             </form>
           </Box>
-        </Box>
-      </Box>
+        </Box >
+      </Box >
     </>
   );
 }

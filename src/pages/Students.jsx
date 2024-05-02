@@ -132,161 +132,167 @@ export default function Students() {
                         </Box>
                     </Box>
                     <Divider sx={{ color: "#E5E5E5", maxWidth: "1110px", marginTop: "11.5px" }} />
-                    <Table sx={{ maxWidth: "100%" }}>
-                        <TableHead>
-                            <TableRow sx={{ borderRadius: "8px" }}>
-                                <TableCell sx={{ border: "none" }}>
-                                </TableCell>
-                                <TableCell sx={{ border: "none", display: "flex", justifyContent: "space-between", "&:hover": { cursor: "pointer" } }} onMouseEnter={() => showSortButton("name")} onMouseLeave={() => hideSortButton("name")}
-                                    onClick={() => {
-                                        if (editField) return;
-                                        const sortedNameData = sortByName(context.studentData, 'asc');
-                                        setCurrentPageData(sortedNameData);
-                                    }}>
-                                    <CustomTypo color="#ACACAC" fontSize="12px">Name</CustomTypo>
-                                    <img src={filter} alt="filter" width="12px" height="15.25px" style={{ marginRight: "30px", alignSelf: "center", display: "none" }} id="name" />
-                                </TableCell>
+                    <TableContainer sx={{ maxHeight: "600px", overflow: "auto" }}>
+                        <Table sx={{ maxWidth: "100%" }}>
+                            <TableHead>
+                                <TableRow sx={{ borderRadius: "8px" }}>
+                                    <TableCell sx={{ border: "none" }}>
+                                        <CustomTypo color="#ACACAC" fontSize="12px">ID</CustomTypo>
+                                    </TableCell>
+                                    <TableCell sx={{ border: "none", display: "flex", justifyContent: "space-between", "&:hover": { cursor: "pointer" } }} onMouseEnter={() => showSortButton("name")} onMouseLeave={() => hideSortButton("name")}
+                                        onClick={() => {
+                                            if (editField) return;
+                                            const sortedNameData = sortByName(context.studentData, 'asc');
+                                            setCurrentPageData(sortedNameData);
+                                        }}>
+                                        <CustomTypo color="#ACACAC" fontSize="12px">Name</CustomTypo>
+                                        <img src={filter} alt="filter" width="12px" height="15.25px" style={{ marginRight: "30px", alignSelf: "center", display: "none" }} id="name" />
+                                    </TableCell>
 
-                                <TableCell sx={{ border: "none", "&:hover": { cursor: "pointer" } }}>
-                                    <CustomTypo color="#ACACAC" fontSize="12px">Email</CustomTypo>
-                                </TableCell>
+                                    <TableCell sx={{ border: "none", "&:hover": { cursor: "pointer" } }}>
+                                        <CustomTypo color="#ACACAC" fontSize="12px">Email</CustomTypo>
+                                    </TableCell>
 
-                                <TableCell sx={{ border: "none", "&:hover": { cursor: "pointer" } }}>
-                                    <CustomTypo color="#ACACAC" fontSize="12px">Phone</CustomTypo>
-                                </TableCell>
+                                    <TableCell sx={{ border: "none", "&:hover": { cursor: "pointer" } }}>
+                                        <CustomTypo color="#ACACAC" fontSize="12px">Phone</CustomTypo>
+                                    </TableCell>
 
-                                <TableCell sx={{ border: "none", "&:hover": { cursor: "pointer" } }}>
-                                    <CustomTypo color="#ACACAC" fontSize="12px">Enroll Number</CustomTypo>
-                                </TableCell>
+                                    <TableCell sx={{ border: "none", "&:hover": { cursor: "pointer" } }}>
+                                        <CustomTypo color="#ACACAC" fontSize="12px">Enroll Number</CustomTypo>
+                                    </TableCell>
 
-                                <TableCell sx={{ border: "none", display: "flex", justifyContent: "space-between", "&:hover": { cursor: "pointer" } }} onMouseEnter={() => showSortButton("date")} onMouseLeave={() => hideSortButton("date")}
-                                    onClick={() => { if (editField) return; const sortedDateData = sortByDate(context.studentData, 'asc'); setCurrentPageData(sortedDateData) }}>
-                                    <CustomTypo color="#ACACAC" fontSize="12px">Date of Admission</CustomTypo>
-                                    <img src={filter} alt="filter" width="12px" height="15.25px" style={{ marginRight: "30px", alignSelf: "center", display: "none" }} id="date" />
-                                </TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody >
-                            {emptyData ?
-                                <TableRow>
-                                    <TableCell colSpan={7} rowSpan={7}>
-                                        <Box sx={{ backgroundColor: "#edabab", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                                            <CustomTypo fontSize="40px" color="red" fontWeight="300" >No Data to Show!</CustomTypo>
-                                        </Box>
+                                    <TableCell sx={{ border: "none", display: "flex", justifyContent: "space-between", "&:hover": { cursor: "pointer" } }} onMouseEnter={() => showSortButton("date")} onMouseLeave={() => hideSortButton("date")}
+                                        onClick={() => { if (editField) return; const sortedDateData = sortByDate(context.studentData, 'asc'); setCurrentPageData(sortedDateData) }}>
+                                        <CustomTypo color="#ACACAC" fontSize="12px">Date of Admission</CustomTypo>
+                                        <img src={filter} alt="filter" width="12px" height="15.25px" style={{ marginRight: "30px", alignSelf: "center", display: "none" }} id="date" />
                                     </TableCell>
                                 </TableRow>
-                                :
-                                currentPageData.slice(startIndex, endIndex).map((student, index) => (
-                                    <TableRow
-                                        key={index}
-                                        sx={{
-                                            '&:last-child td, &:last-child th': { border: 0 }, backgroundColor: "#FFFFFF"
-                                            , '&:not(:last-child) td, &:not(:last-child) th': { borderBottom: "10px solid #F8F8F8" },
-                                        }}
-                                    >
-                                        <TableCell sx={{ border: "none" }}>
-                                            <img src="https://media.istockphoto.com/id/1419922260/photo/3d-render-of-a-cat-playing-video-games-with-a-vr-headset.jpg?s=1024x1024&w=is&k=20&c=7GvkQa5vI7Xi_4DZL39dMGZqCLw72oTijNGsiOT_sa4=" style={{ borderRadius: "8px" }} alt="profile pic" width="65px" height="55px" />
-                                        </TableCell>
-                                        <TableCell sx={{ border: "none" }}>
-                                            {editField === student.id ? (
-                                                <CustomTextfield
-                                                    className="editFields"
-                                                    type="text"
-                                                    error={validationError.includes("name error")}
-                                                    helperText={validationError.includes("name error") && "Name cannot be Empty!!"}
-                                                    name='name'
-                                                    defaultValue={student.name}
-                                                    onChange={(e) => handleEditInputChange(e, student)}
-                                                />
-                                            ) : (
-                                                <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
-                                                    {student.name}
-                                                </CustomTypo>
-                                            )}
-                                        </TableCell>
-                                        <TableCell align="left" sx={{ border: "none" }}>
-                                            {editField === student.id ? (
-                                                <CustomTextfield
-                                                    className="editFields"
-                                                    type="text"
-                                                    error={validationError.includes("email error")}
-                                                    helperText={validationError.includes("email error") && "Enter Valid Email!!"}
-                                                    name='email'
-                                                    defaultValue={student.email}
-                                                    onChange={(e) => handleEditInputChange(e, student)}
-                                                />
-                                            ) : (
-                                                <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
-                                                    {student.email}
-                                                </CustomTypo>
-                                            )}
-                                        </TableCell>
-                                        <TableCell align="left" sx={{ border: "none" }}>
-                                            {editField === student.id ? (
-                                                <CustomTextfield
-                                                    className="editFields"
-                                                    error={validationError.includes("phone error")}
-                                                    helperText={validationError.includes("phone error") && "length must be 10!!"}
-                                                    type="text"
-                                                    name="phone"
-                                                    defaultValue={student.phone}
-                                                    onChange={(e) => handleEditInputChange(e, student)}
-                                                />
-                                            ) : (
-                                                <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
-                                                    {student.phone}
-                                                </CustomTypo>
-                                            )}
-                                        </TableCell>
-                                        <TableCell align="left" sx={{ border: "none" }}>
-                                            {editField === student.id ? (
-                                                <CustomTextfield
-                                                    type="text"
-                                                    error={validationError.includes("enrollNo error")}
-                                                    helperText={validationError.includes("enrollNo error") && "enroll Number cannot be empty!!"}
-                                                    className="editFields"
-                                                    name="enrollNumber"
-                                                    defaultValue={student.enrollNumber}
-                                                    onChange={(e) => handleEditInputChange(e, student)}
-                                                />
-                                            ) : (
-                                                <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
-                                                    {student.enrollNumber}
-                                                </CustomTypo>
-                                            )}
-                                        </TableCell>
-                                        <TableCell align="left" sx={{ border: "none" }}>
-                                            {editField === student.id ? (
-                                                <CustomTextfield
-                                                    type="date"
-                                                    className="editFields"
-                                                    error={validationError.includes("date error")}
-                                                    helperText={validationError.includes("date error") && "Enter Valid Date!!"}
-                                                    name="dateOfAdmission"
-                                                    defaultValue={student.dateOfAdmission}
-                                                    onChange={(e) => handleEditInputChange(e, student)}
-                                                />
-                                            ) : (
-                                                <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
-                                                    {student.dateOfAdmission}
-                                                </CustomTypo>
-                                            )}
-                                        </TableCell>
-                                        <TableCell align="center" sx={{ border: "none" }}>
-                                            <Box sx={{ display: "flex", gap: "33PX" }}>
-                                                {
-                                                    editField === student.id ? <CustomButton width="50px" height="25px" fontSize="10px" onClick={() => updateStudent(student)}>Update</CustomButton>
-                                                        :
-                                                        <img src={editIcon} alt='view' style={{ cursor: "pointer" }} onClick={() => handleEditStudent(student)} />
-                                                }
-                                                <img src={deleteIcon} alt='view' style={{ cursor: "pointer" }} onClick={() => { if (editField) return; setOpenDeleteStudent(true); setDeleteUser(student) }} />
+                            </TableHead>
+                            <TableBody >
+                                {emptyData ?
+                                    <TableRow>
+                                        <TableCell colSpan={7} rowSpan={7}>
+                                            <Box sx={{ backgroundColor: "#edabab", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                                <CustomTypo fontSize="40px" color="red" fontWeight="300" >No Data to Show!</CustomTypo>
                                             </Box>
                                         </TableCell>
                                     </TableRow>
-                                ))
-                            }
-                        </TableBody>
-                    </Table>
+                                    :
+                                    currentPageData.slice(startIndex, endIndex).map((student, index) => (
+                                        <TableRow
+                                            key={index}
+                                            sx={{
+                                                '&:last-child td, &:last-child th': { border: 0 }, backgroundColor: "#FFFFFF"
+                                                , '&:not(:last-child) td, &:not(:last-child) th': { borderBottom: "10px solid #F8F8F8" },
+                                            }}
+                                        >
+                                            <TableCell sx={{ border: "none" }}>
+                                                <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
+                                                    {student.id}
+                                                </CustomTypo>
+                                            </TableCell>
+                                            <TableCell sx={{ border: "none" }}>
+                                                {editField === student.id ? (
+                                                    <CustomTextfield
+                                                        className="editFields"
+                                                        type="text"
+                                                        error={validationError.includes("name error")}
+                                                        helperText={validationError.includes("name error") && "Name cannot be Empty!!"}
+                                                        name='name'
+                                                        defaultValue={student.name}
+                                                        onChange={(e) => handleEditInputChange(e, student)}
+                                                    />
+                                                ) : (
+                                                    <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
+                                                        {student.name}
+                                                    </CustomTypo>
+                                                )}
+                                            </TableCell>
+                                            <TableCell align="left" sx={{ border: "none" }}>
+                                                {editField === student.id ? (
+                                                    <CustomTextfield
+                                                        className="editFields"
+                                                        type="text"
+                                                        error={validationError.includes("email error")}
+                                                        helperText={validationError.includes("email error") && "Enter Valid Email!!"}
+                                                        name='email'
+                                                        defaultValue={student.email}
+                                                        onChange={(e) => handleEditInputChange(e, student)}
+                                                    />
+                                                ) : (
+                                                    <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
+                                                        {student.email}
+                                                    </CustomTypo>
+                                                )}
+                                            </TableCell>
+                                            <TableCell align="left" sx={{ border: "none" }}>
+                                                {editField === student.id ? (
+                                                    <CustomTextfield
+                                                        className="editFields"
+                                                        error={validationError.includes("phone error")}
+                                                        helperText={validationError.includes("phone error") && "length must be 10!!"}
+                                                        type="text"
+                                                        name="phone"
+                                                        defaultValue={student.phone}
+                                                        onChange={(e) => handleEditInputChange(e, student)}
+                                                    />
+                                                ) : (
+                                                    <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
+                                                        {student.phone}
+                                                    </CustomTypo>
+                                                )}
+                                            </TableCell>
+                                            <TableCell align="left" sx={{ border: "none" }}>
+                                                {editField === student.id ? (
+                                                    <CustomTextfield
+                                                        type="text"
+                                                        error={validationError.includes("enrollNo error")}
+                                                        helperText={validationError.includes("enrollNo error") && "enroll Number cannot be empty!!"}
+                                                        className="editFields"
+                                                        name="enrollNumber"
+                                                        defaultValue={student.enrollNumber}
+                                                        onChange={(e) => handleEditInputChange(e, student)}
+                                                    />
+                                                ) : (
+                                                    <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
+                                                        {student.enrollNumber}
+                                                    </CustomTypo>
+                                                )}
+                                            </TableCell>
+                                            <TableCell align="left" sx={{ border: "none" }}>
+                                                {editField === student.id ? (
+                                                    <CustomTextfield
+                                                        type="date"
+                                                        className="editFields"
+                                                        error={validationError.includes("date error")}
+                                                        helperText={validationError.includes("date error") && "Enter Valid Date!!"}
+                                                        name="dateOfAdmission"
+                                                        defaultValue={student.dateOfAdmission}
+                                                        onChange={(e) => handleEditInputChange(e, student)}
+                                                    />
+                                                ) : (
+                                                    <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
+                                                        {student.dateOfAdmission}
+                                                    </CustomTypo>
+                                                )}
+                                            </TableCell>
+                                            <TableCell align="center" sx={{ border: "none" }}>
+                                                <Box sx={{ display: "flex", gap: "33PX" }}>
+                                                    {
+                                                        editField === student.id ? <CustomButton width="50px" height="25px" fontSize="10px" onClick={() => updateStudent(student)}>Update</CustomButton>
+                                                            :
+                                                            <img src={editIcon} alt='view' style={{ cursor: "pointer" }} onClick={() => handleEditStudent(student)} />
+                                                    }
+                                                    <img src={deleteIcon} alt='view' style={{ cursor: "pointer" }} onClick={() => { if (editField) return; setOpenDeleteStudent(true); setDeleteUser(student) }} />
+                                                </Box>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))
+                                }
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+
                 </Box>
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                     <CustomTypo>Page No: {currPageNo}</CustomTypo>

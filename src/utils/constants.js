@@ -27,13 +27,3 @@ export const paymentTableHeadData = [
   "Balance amount",
   "Date",
 ];
-
-export const lightTheme = {
-  background: "#ffffff",
-  text: "#222020",
-};
-
-export const darkTheme = {
-  background: "#302e2e",
-  text: "#ffffff",
-};
