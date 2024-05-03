@@ -26,6 +26,7 @@ export default function Students() {
     const [validationError, setValidationError] = React.useState([])
     const [emptyData, setEmptyData] = useState(false)
     const [editField, setEditField] = useState(null)
+    const [userAlreadyExists, setUserAlreadyExists] = useState(false)
     const [rowData, setRowData] = useState({ id: null, name: null, email: null, phone: null, enrollNumber: null, dateOfAdmission: null });
     const totalPages = Math.ceil(context.studentData.length / itemsPerPage);
     const [openAddStudent, setOpenAddStudent] = useState(false);
@@ -66,6 +67,15 @@ export default function Students() {
         }));
     };
 
+    function isEmailAlreadyExistsForOtherUser(arrayOfObjects, providedEmail, userId) {
+        for (let obj of arrayOfObjects) {
+            if (obj.email === providedEmail && obj.id !== userId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     const updateStudent = (student) => {
         context.setStudentData((prevData) => {
             return prevData.map((eachStudent) => {
@@ -81,12 +91,20 @@ export default function Students() {
                     try {
                         const validateProvidedInfo = validateInfo(updatedStudent);
                         if (validateProvidedInfo) {
-                            setEditField(null);
                             setValidationError([])
-                            return updatedStudent;
+                            const userExists = isEmailAlreadyExistsForOtherUser(context.studentData, rowData.email, rowData.id)
+                            if (!userExists) {
+                                setEditField(null);
+                                setUserAlreadyExists(false)
+                                return updatedStudent;
+                            } else {
+                                setUserAlreadyExists(true)
+                                throw new Error("User with same email ALREADY exists!!")
+                            }
                         }
                     } catch (error) {
                         setValidationError(error.message.split(","))
+                        console.log(error.message)
                     }
                 }
                 return eachStudent;
@@ -126,9 +144,7 @@ export default function Students() {
                         <Table sx={{ maxWidth: "100%" }}>
                             <TableHead>
                                 <TableRow sx={{ borderRadius: "8px" }}>
-                                    <TableCell sx={{ border: "none" }}>
-                                        <CustomTypo color="#ACACAC" fontSize="12px">ID</CustomTypo>
-                                    </TableCell>
+
                                     <TableCell sx={{ border: "none", display: "flex", justifyContent: "space-between", "&:hover": { cursor: "pointer" } }} onMouseEnter={() => showSortButton("name")} onMouseLeave={() => hideSortButton("name")}
                                         onClick={() => {
                                             if (editField) return;
@@ -156,6 +172,10 @@ export default function Students() {
                                         <CustomTypo color="#ACACAC" fontSize="12px">Date of Admission</CustomTypo>
                                         <img src={filter} alt="filter" width="12px" height="15.25px" style={{ marginRight: "30px", alignSelf: "center", display: "none" }} id="date" />
                                     </TableCell>
+
+                                    <TableCell sx={{ border: "none", "&:hover": { cursor: "pointer" } }} align='left'>
+                                        <CustomTypo color="#ACACAC" fontSize="12px">Actions</CustomTypo>
+                                    </TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody >
@@ -176,11 +196,6 @@ export default function Students() {
                                                 , '&:not(:last-child) td, &:not(:last-child) th': { borderBottom: "10px solid #F8F8F8" },
                                             }}
                                         >
-                                            <TableCell sx={{ border: "none" }}>
-                                                <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
-                                                    {student.id}
-                                                </CustomTypo>
-                                            </TableCell>
                                             <TableCell sx={{ border: "none" }}>
                                                 {editField === student.id ? (
                                                     <CustomTextfield
@@ -203,8 +218,8 @@ export default function Students() {
                                                     <CustomTextfield
                                                         className="editFields"
                                                         type="text"
-                                                        error={validationError.includes("email error")}
-                                                        helperText={validationError.includes("email error") && "Enter Valid Email!!"}
+                                                        error={validationError.includes("email error") || userAlreadyExists}
+                                                        helperText={(validationError.includes("email error") && "Enter Valid Email!!") || (userAlreadyExists && "email ALREADY exists!!")}
                                                         name='email'
                                                         defaultValue={student.email}
                                                         onChange={(e) => handleEditInputChange(e, student)}
@@ -288,7 +303,7 @@ export default function Students() {
                     <CustomTypo>Page No: {currPageNo}</CustomTypo>
                     <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
                         <CustomPagination
-                            count={totalPages}
+                            count={totalPages !== 0 ? totalPages : 1}
                             handlePageChange={handlePageChange}
                         />
                     </Box>

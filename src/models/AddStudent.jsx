@@ -2,19 +2,26 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import CustomTypo from '../CustomComponents/CustomTypo';
-import { Divider, Icon, IconButton } from '@mui/material';
+import { Alert, Divider, Icon, IconButton, Snackbar } from '@mui/material';
 import CustomTextfield from '../CustomComponents/CustomTextfield';
 import CustomButton from "../CustomComponents/CustomButton"
 import CloseIcon from '@mui/icons-material/Close';
 import { validateInfo } from "../utils/validate"
-import { formatDate } from "../utils/helpers"
+import { useId } from 'react';
+import { formatDate, checkUserExists } from "../utils/helpers"
 import { style } from "../utils/constants"
 import { SomeContext } from '../context/context'
+import { useState } from 'react';
+import CustomSnackbar from '../CustomComponents/CustomSnackbar';
 
 export default function AddStudent({ openAddStudent, setOpenAddStudent }) {
-    const [validationError, setValidationError] = React.useState([])
+    const [validationError, setValidationError] = useState([])
+    const [openErrorSnackbar, setOpenErrorSnackbar] = useState(false);
+    const [openSuccessSnackbar, setOpenSuccessSnackbar] = useState(false);
     const context = React.useContext(SomeContext)
-    const handleClose = () => {
+    const id = useId();
+
+    const handleModalClose = () => {
         setOpenAddStudent(false)
         setValidationError([])
     }
@@ -24,30 +31,50 @@ export default function AddStudent({ openAddStudent, setOpenAddStudent }) {
         const form = event.target;
         const formData = new FormData(form);
         const studentObject = Object.fromEntries([...formData.entries()]);
-        studentObject.id = context.studentData.length + 1
-        console.log("this is student object", studentObject)
+        studentObject.id = id
         try {
             const validateProvidedInfo = validateInfo(studentObject)
             if (validateProvidedInfo) {
                 const dateObj = formatDate(studentObject.dateOfAdmission)
                 studentObject.dateOfAdmission = dateObj
-                context.setStudentData([...context.studentData, studentObject]);
-                setValidationError([])
-                setTimeout(() => {
+                const userExists = checkUserExists(context.studentData, studentObject.email, studentObject.enrollNumber)
+                if (!userExists) {
+                    context.setStudentData([...context.studentData, studentObject]);
+                    setValidationError([])
+                    setOpenSuccessSnackbar(true)
                     form.reset();
-                }, [1000])
+                    setTimeout(() => {
+                        handleModalClose()
+                    }, [1000])
+                } else {
+                    setOpenErrorSnackbar(true)
+                }
             }
         } catch (error) {
             setValidationError(error.message.split(","))
         }
     }
 
+    const handleErrorSnackbarClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpenErrorSnackbar(false);
+    };
+
+    const handleSuccessSnackbarClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpenSuccessSnackbar(false);
+    };
+
     return (
         <>
             <div>
                 <Modal
                     open={openAddStudent}
-                    onClose={handleClose}
+                    onClose={handleModalClose}
                 >
                     <Box sx={style}>
                         <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
@@ -55,7 +82,7 @@ export default function AddStudent({ openAddStudent, setOpenAddStudent }) {
                                 <CustomTypo fontWeight="bold" fontSize="20px">
                                     Add New Student
                                 </CustomTypo>
-                                <IconButton style={{ border: '1px solid #FEAF00' }} onClick={handleClose}>
+                                <IconButton style={{ border: '1px solid #FEAF00' }} onClick={handleModalClose}>
                                     <Icon style={{ color: '#FEAF00' }}><CloseIcon /></Icon>
                                 </IconButton>
                             </Box>
@@ -102,6 +129,12 @@ export default function AddStudent({ openAddStudent, setOpenAddStudent }) {
                         </Box>
                     </Box>
                 </Modal>
+                <CustomSnackbar open={openErrorSnackbar} onClose={handleErrorSnackbarClose} type="error">
+                    User Already Exists!!
+                </CustomSnackbar>
+                <CustomSnackbar open={openSuccessSnackbar} onClose={handleSuccessSnackbarClose} type="success">
+                    User Added Successfully!!
+                </CustomSnackbar>
             </div>
         </>
     )

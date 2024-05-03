@@ -53,3 +53,13 @@ export const hideSortButton = (value) => {
     xyz.style.display = "none";
   }
 };
+
+export function checkUserExists(array, providedEmail, providedEnrollNo) {
+  for (let obj of array) {
+    if (obj.email === providedEmail || obj.enrollNumber === providedEnrollNo) {
+      return true;
+    }
+  }
+  return false;
+}
+
