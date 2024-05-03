@@ -14,12 +14,11 @@ import { SomeContext } from '../context/context'
 import AddStudent from '../models/AddStudent'
 import DeleteStudent from '../models/DeleteStudent'
 import CustomPagination from '../CustomComponents/CustomPagination'
-import { studentTableHeadData } from "../utils/constants"
 import { showSortButton, hideSortButton, sortByName, sortByDate, formatDate } from "../utils/helpers"
 import { validateInfo } from '../utils/validate';
 import CustomTextfield from '../CustomComponents/CustomTextfield'
 
-export default function Students() {
+export default function Students({ studentData }) {
     const context = useContext(SomeContext);
     const [currPageNo, setCurrPageNo] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(5);
@@ -28,12 +27,12 @@ export default function Students() {
     const [editField, setEditField] = useState(null)
     const [userAlreadyExists, setUserAlreadyExists] = useState(false)
     const [rowData, setRowData] = useState({ id: null, name: null, email: null, phone: null, enrollNumber: null, dateOfAdmission: null });
-    const totalPages = Math.ceil(context.studentData.length / itemsPerPage);
+    const totalPages = Math.ceil(studentData.length / itemsPerPage);
     const [openAddStudent, setOpenAddStudent] = useState(false);
     const [openDeleteStudent, setOpenDeleteStudent] = useState(false);
     const [deleteUser, setDeleteUser] = useState();
     const startIndex = (currPageNo - 1) * itemsPerPage;
-    const endIndex = Math.min(startIndex + itemsPerPage, context.studentData.length);
+    const endIndex = Math.min(startIndex + itemsPerPage, studentData.length);
     const [currentPageData, setCurrentPageData] = useState(context.studentData);
 
     const handleEditStudent = (student) => {
@@ -51,12 +50,14 @@ export default function Students() {
     }
 
     useEffect(() => {
+        setCurrentPageData(context.studentData)
         if (currentPageData.slice(startIndex, endIndex).length === 0 && currPageNo > 1) {
-            setCurrPageNo(currPageNo - 1)
+            setCurrPageNo(currPageNo - 1);
         } else if (currentPageData.slice(startIndex, endIndex).length === 0 && currPageNo === 1) {
-            setEmptyData(true)
+            setEmptyData(true);
         }
-    }, [currentPageData, currPageNo, itemsPerPage, startIndex, endIndex, context]);
+    }, [context, currentPageData, currPageNo, itemsPerPage, startIndex, endIndex,]);
+
 
 
     const handleEditInputChange = (e, student) => {
@@ -86,13 +87,13 @@ export default function Students() {
                         email: rowData.email,
                         phone: rowData.phone,
                         enrollNumber: rowData.enrollNumber,
-                        dateOfAdmission: formatDate(rowData?.dateOfAdmission),
+                        dateOfAdmission: formatDate(rowData.dateOfAdmission),
                     };
                     try {
                         const validateProvidedInfo = validateInfo(updatedStudent);
                         if (validateProvidedInfo) {
                             setValidationError([])
-                            const userExists = isEmailAlreadyExistsForOtherUser(context.studentData, rowData.email, rowData.id)
+                            const userExists = isEmailAlreadyExistsForOtherUser(studentData, rowData.email, rowData.id)
                             if (!userExists) {
                                 setEditField(null);
                                 setUserAlreadyExists(false)
@@ -148,7 +149,7 @@ export default function Students() {
                                     <TableCell sx={{ border: "none", display: "flex", justifyContent: "space-between", "&:hover": { cursor: "pointer" } }} onMouseEnter={() => showSortButton("name")} onMouseLeave={() => hideSortButton("name")}
                                         onClick={() => {
                                             if (editField) return;
-                                            const sortedNameData = sortByName(context.studentData, 'asc');
+                                            const sortedNameData = sortByName(studentData, 'asc');
                                             setCurrentPageData(sortedNameData);
                                         }}>
                                         <CustomTypo color="#ACACAC" fontSize="12px">Name</CustomTypo>

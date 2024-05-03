@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Header from './Header'
 import Sidebar from './Sidebar'
 import { ThemeContext, SomeContext } from '../context/context'
@@ -13,6 +13,11 @@ export default function Dashboard() {
   const [openSidebar, setOpenSidebar] = useState(false);
   const [studentData, setStudentData] = useState(studentsData)
 
+  useEffect(() => {
+    console.log("dashboard updated")
+    console.log(studentData,"this is student data")
+  }, [studentData, setStudentData])
+
 
   return (
     <>
@@ -24,7 +29,7 @@ export default function Dashboard() {
             <Routes>
               <Route path='/home' element={<Home />} />
               <Route path='/course' element={<h1>Course</h1>} />
-              <Route path='/students' element={<Students />} />
+              <Route path='/students' element={<Students studentData={studentData} />} />
               <Route path='/payments' element={<Payment />} />
               <Route path='/report' element={<h1>Report</h1>} />
               <Route path='/settings' element={<h1>Settings</h1>} />

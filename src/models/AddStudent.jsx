@@ -2,13 +2,12 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import CustomTypo from '../CustomComponents/CustomTypo';
-import { Alert, Divider, Icon, IconButton, Snackbar } from '@mui/material';
+import { Divider, Icon, IconButton } from '@mui/material';
 import CustomTextfield from '../CustomComponents/CustomTextfield';
 import CustomButton from "../CustomComponents/CustomButton"
 import CloseIcon from '@mui/icons-material/Close';
 import { validateInfo } from "../utils/validate"
-import { useId } from 'react';
-import { formatDate, checkUserExists } from "../utils/helpers"
+import { formatDate, checkUserExists, generateUniqueId } from "../utils/helpers"
 import { style } from "../utils/constants"
 import { SomeContext } from '../context/context'
 import { useState } from 'react';
@@ -19,7 +18,6 @@ export default function AddStudent({ openAddStudent, setOpenAddStudent }) {
     const [openErrorSnackbar, setOpenErrorSnackbar] = useState(false);
     const [openSuccessSnackbar, setOpenSuccessSnackbar] = useState(false);
     const context = React.useContext(SomeContext)
-    const id = useId();
 
     const handleModalClose = () => {
         setOpenAddStudent(false)
@@ -31,7 +29,7 @@ export default function AddStudent({ openAddStudent, setOpenAddStudent }) {
         const form = event.target;
         const formData = new FormData(form);
         const studentObject = Object.fromEntries([...formData.entries()]);
-        studentObject.id = id
+        studentObject.id = generateUniqueId()
         try {
             const validateProvidedInfo = validateInfo(studentObject)
             if (validateProvidedInfo) {
