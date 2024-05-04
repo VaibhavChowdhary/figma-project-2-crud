@@ -17,7 +17,7 @@ import { showSortButton, hideSortButton, sortByName, sortByDate } from "../utils
 export default function Payment({ paymentData }) {
     const context = useContext(SomeContext);
     const [currPageNo, setCurrPageNo] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(5);
     const [emptyData, setEmptyData] = useState(false)
     let totalPages;
     if (context.filteredData.length > 0) {
