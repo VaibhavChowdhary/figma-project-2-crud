@@ -58,7 +58,6 @@ export default function Students({ studentData }) {
         }
         else {
             setEmptyData(false)
-            console.log("woring")
             setCurrentPageData(context.studentData)
         }
     }, [context])
@@ -319,6 +318,7 @@ export default function Students({ studentData }) {
                     <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
                         <CustomPagination
                             count={totalPages !== 0 ? totalPages : 1}
+                            page={currPageNo}
                             handlePageChange={handlePageChange}
                         />
                     </Box>
