@@ -33,6 +33,7 @@ export const validateInfo = (info) => {
   }
 
   if (!new Date(info.dateOfAdmission).getTime()) {
+    console.log(info.dateOfAdmission,"this is in validation")
     errors.push("date error");
   }
 

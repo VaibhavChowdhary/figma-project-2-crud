@@ -1,18 +1,15 @@
 export const formatDate = (dateString) => {
   const isAlreadyFormatted = /^[a-zA-Z]{3}\s\d{1,2},\s\d{4}$/.test(dateString);
-  const isValidFormat = /^\d{2}\/\d{2}\/\d{4}$/.test(dateString);
+  const isValidFormat = /^\d{4}-\d{2}-\d{2}$/.test(dateString);
 
   if (isAlreadyFormatted) {
     return dateString;
   } else {
     if (!isValidFormat) {
+      console.log(dateString, "is not in yyyy-mm-dd format");
       return false;
     } else {
-      const [day, month, year] = dateString.split("/");
-      console.log(day, month, year);
-      if (year.length !== 4) {
-        return false;
-      }
+      const [year, month, day] = dateString.split("-");
       const dateObj = new Date(`${year}-${month}-${day}`);
       return dateObj.toLocaleDateString("en-US", {
         day: "2-digit",

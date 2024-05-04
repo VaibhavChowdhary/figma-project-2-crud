@@ -198,5 +198,5 @@ export const studentsData = [
   //   phone: "4444477777",
   //   enrollNumber: "545464645654465",
   //   dateOfAdmission: "Nov 5, 2022",
-  // },
+  // }
 ];
