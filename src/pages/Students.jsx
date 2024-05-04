@@ -17,6 +17,7 @@ import CustomPagination from '../CustomComponents/CustomPagination'
 import { showSortButton, hideSortButton, sortByName, sortByDate, formatDate } from "../utils/helpers"
 import { validateInfo } from '../utils/validate';
 import CustomTextfield from '../CustomComponents/CustomTextfield'
+import CustomSnackbar from '../CustomComponents/CustomSnackbar'
 
 export default function Students({ studentData }) {
     const context = useContext(SomeContext);
@@ -26,6 +27,7 @@ export default function Students({ studentData }) {
     const [emptyData, setEmptyData] = useState(false)
     const [editField, setEditField] = useState(null)
     const [userAlreadyExists, setUserAlreadyExists] = useState(false)
+    const [openUpdateSnackbar, setOpenUpdateSnackbar] = useState(false);
     const [rowData, setRowData] = useState({ id: null, name: null, email: null, phone: null, enrollNumber: null, dateOfAdmission: null });
     let totalPages;
     if (context.filteredData.length > 0) {
@@ -40,6 +42,12 @@ export default function Students({ studentData }) {
     const endIndex = Math.min(startIndex + itemsPerPage, studentData.length);
     const [currentPageData, setCurrentPageData] = useState(context.studentData);
 
+    const handleUpdateSnackbarClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpenUpdateSnackbar(false);
+    };
     const handleEditStudent = (student) => {
         setEditField(student.id);
         setRowData(
@@ -113,6 +121,7 @@ export default function Students({ studentData }) {
                             if (!userExists) {
                                 setEditField(null);
                                 setUserAlreadyExists(false)
+                                setOpenUpdateSnackbar(true)
                                 return updatedStudent;
                             } else {
                                 setUserAlreadyExists(true)
@@ -338,6 +347,9 @@ export default function Students({ studentData }) {
                     </Box>
                 </Box>
             </Box >
+            <CustomSnackbar open={openUpdateSnackbar} onClose={handleUpdateSnackbarClose} type="success">
+                User Updated Successfully!!
+            </CustomSnackbar>
             <AddStudent openAddStudent={openAddStudent} setOpenAddStudent={setOpenAddStudent} />
             <DeleteStudent openDeleteStudent={openDeleteStudent} setOpenDeleteStudent={setOpenDeleteStudent} userToDelete={deleteUser} />
         </>
