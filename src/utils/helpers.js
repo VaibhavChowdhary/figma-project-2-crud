@@ -6,7 +6,6 @@ export const formatDate = (dateString) => {
     return dateString;
   } else {
     if (!isValidFormat) {
-      console.log(dateString, "is not in yyyy-mm-dd format");
       return false;
     } else {
       const [year, month, day] = dateString.split("-");

@@ -31,14 +31,14 @@ export const studentsData = [
     enrollNumber: "123456987452",
     dateOfAdmission: "Nov 24, 2017",
   },
-  {
-    id: 5,
-    name: "Rohit",
-    email: "rohit@example.com",
-    phone: "2136547896",
-    enrollNumber: "741258963258",
-    dateOfAdmission: "Jun 14, 2023",
-  },
+  // {
+  //   id: 5,
+  //   name: "Rohit",
+  //   email: "rohit@example.com",
+  //   phone: "2136547896",
+  //   enrollNumber: "741258963258",
+  //   dateOfAdmission: "Jun 14, 2023",
+  // },
   // {
   //   id: 6,
   //   name: "Virat",

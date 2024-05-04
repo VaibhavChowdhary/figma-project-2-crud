@@ -49,14 +49,29 @@ export default function Students({ studentData }) {
         )
     }
 
+    console.log(context.filteredData, "this is filtered Data")
+
     useEffect(() => {
-        setCurrentPageData(context.studentData)
+       
+        if (context.filteredData.length > 0 && context.filteredData !== "empty") {
+            setEmptyData(false)
+            setCurrentPageData(context.filteredData)
+        } else if (context.filteredData === "empty") {
+            setEmptyData(true)
+        }
+        else {
+            setEmptyData(false)
+            setCurrentPageData(context.studentData)
+        }
+    }, [context,currentPageData])
+
+    useEffect(() => {
         if (currentPageData.slice(startIndex, endIndex).length === 0 && currPageNo > 1) {
             setCurrPageNo(currPageNo - 1);
         } else if (currentPageData.slice(startIndex, endIndex).length === 0 && currPageNo === 1) {
             setEmptyData(true);
         }
-    }, [context, currentPageData, currPageNo, itemsPerPage, startIndex, endIndex,]);
+    }, [currentPageData, currPageNo, itemsPerPage, startIndex, endIndex,]);
 
 
 
@@ -122,6 +137,7 @@ export default function Students({ studentData }) {
         setCurrPageNo(1)
         handlePageChange(1)
     };
+
 
     return (
         <>
