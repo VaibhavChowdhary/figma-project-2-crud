@@ -28,8 +28,22 @@ const Header = () => {
                     // Handle the case where no data matches the search input
                     context.setFilteredData('empty')
                     // You can add additional logic here as needed
-                }else{
+                } else {
                     context.setFilteredData(filteredStudents)
+                }
+
+            } else {
+                context.setFilteredData([])
+            }
+        } else if (currentURL === '/dashboard/payments') {
+            if (event.target.value.length > 0) {
+                const filteredPayments = context.paymentData.filter((payment) =>
+                    payment.name.toLowerCase().includes(event.target.value.toLowerCase())
+                );
+                if (filteredPayments.length === 0) {
+                    context.setFilteredData('empty')
+                } else {
+                    context.setFilteredData(filteredPayments)
                 }
 
             } else {

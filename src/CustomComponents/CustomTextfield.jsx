@@ -10,10 +10,9 @@ const CustomTextfield = React.forwardRef(({ error, ...rest }, ref) => {
         InputProps={{
           style: {
             borderRadius: "4px",
-            borderColor: "#E5E5E5",
+            borderColor: error ? "#dd3a25" : "#E5E5E5",
             backgroundColor: error ? "#F59184" : "#FFFFFF",
             color: error ? "#FFFFFF" : "#6C6C6C",
-            marginBottom: error && '-4px',
             '& .MuiFormHelperTextRoot': {
               color: "#F59184",
               lineHeight: '1em',

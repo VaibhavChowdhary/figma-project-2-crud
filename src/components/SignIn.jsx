@@ -110,11 +110,11 @@ export default function SignIn() {
               <Box sx={{ display: "flex", justifyContent: "center", flexDirection: "column", gap: 2, marginTop: "50px" }}>
                 <Box >
                   <CustomTypo fontSize={14} color="#6C6C6C">Email</CustomTypo>
-                  <CustomTextField ref={emailRef} onChange={handleEmailChange} placeholder="Enter your email" error={emailError || invalidCredentials} helperText={(emailError || invalidCredentials) && "Enter valid Email"} name="email" width='415px' height='44px' marginTop="10px" />
+                  <CustomTextField ref={emailRef} onChange={handleEmailChange} placeholder="Enter your email" error={emailError || invalidCredentials} helperText={(emailError || invalidCredentials) ? "Enter valid Email" : ""} name="email" width='415px' height='44px' marginTop="10px" />
                 </Box>
                 <Box>
                   <CustomTypo fontSize={14} color="#6C6C6C">Password</CustomTypo>
-                  <CustomTextField ref={passwordRef} onChange={handlePasswordChange} placeholder="Enter your password" error={passwordError || invalidCredentials} helperText={(passwordError || invalidCredentials) && "Password length should be in 5 to 10"} name="password" type="password" width='415px' height='44px' marginTop="10px" />
+                  <CustomTextField ref={passwordRef} onChange={handlePasswordChange} placeholder="Enter your password" error={passwordError || invalidCredentials} helperText={(passwordError || invalidCredentials) ? "Password length should be in 5 to 10" : ""} name="password" type="password" width='415px' height='44px' marginTop="10px" />
                 </Box>
                 <Box sx={{ marginTop: "10px" }}>
                   {/* <CustomButton width="415px" backgroundColor="#FEAF00" type="submit">

@@ -27,7 +27,12 @@ export default function Students({ studentData }) {
     const [editField, setEditField] = useState(null)
     const [userAlreadyExists, setUserAlreadyExists] = useState(false)
     const [rowData, setRowData] = useState({ id: null, name: null, email: null, phone: null, enrollNumber: null, dateOfAdmission: null });
-    const totalPages = Math.ceil(studentData.length / itemsPerPage);
+    let totalPages;
+    if (context.filteredData.length > 0) {
+        totalPages = Math.ceil(context.filteredData.length / itemsPerPage);
+    } else {
+        totalPages = Math.ceil(studentData.length / itemsPerPage);
+    }
     const [openAddStudent, setOpenAddStudent] = useState(false);
     const [openDeleteStudent, setOpenDeleteStudent] = useState(false);
     const [deleteUser, setDeleteUser] = useState();
@@ -48,7 +53,6 @@ export default function Students({ studentData }) {
             }
         )
     }
-
     useEffect(() => {
         if (context.filteredData.length > 0 && context.filteredData !== "empty") {
             setEmptyData(false)
@@ -233,7 +237,7 @@ export default function Students({ studentData }) {
                                                         className="editFields"
                                                         type="text"
                                                         error={validationError.includes("email error") || userAlreadyExists}
-                                                        helperText={(validationError.includes("email error") && "Enter Valid Email!!") || (userAlreadyExists && "email ALREADY exists!!")}
+                                                        helperText={(validationError.includes("email error") && "Enter Valid Email!!") || (userAlreadyExists && "email already exists!!")}
                                                         name='email'
                                                         defaultValue={student.email}
                                                         onChange={(e) => handleEditInputChange(e, student)}

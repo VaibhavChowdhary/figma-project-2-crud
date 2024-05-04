@@ -10,30 +10,46 @@ import TableRow from '@mui/material/TableRow';
 import eye from "../assets/eye.png"
 import { SomeContext } from '../context/context'
 import CustomPagination from '../CustomComponents/CustomPagination';
+import { paymentsData } from '../data/payments';
 import { showSortButton, hideSortButton, sortByName, sortByDate } from "../utils/helpers"
 
 
-export default function Payment() {
+export default function Payment({ paymentData }) {
     const context = useContext(SomeContext);
-    const rows = [
-        { name: "vaibhav", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "Jan 27, 2008" },
-        { name: "vervr", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "Jan 31, 2022" },
-        { name: "vcewcewc", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "Jan 01, 2021" },
-        { name: "iuhyg", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "Mar 24, 2011" },
-        { name: "wqqdq", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "Apr 07, 2013" },
-        { name: "nmi", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "Dec 21, 2017" },
-        { name: "ttrbyr", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "Mar 13, 2009" },
-        { name: "gfbhbby", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "Dec 28, 2017" },
-        { name: "dcrv", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "Feb 12, 2015" },
-        { name: "tyhty", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "Dec 08, 2019" },
-        { name: "ikui", paymentSchedule: "first", billNumber: "00012223", amountPaid: "INR 35,000", balanceAmount: "INR 55,000", date: "May 19, 2007" },
-    ]
     const [currPageNo, setCurrPageNo] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(5);
-    const totalPages = Math.ceil(rows.length / itemsPerPage);
+    const [itemsPerPage, setItemsPerPage] = useState(1);
+    const [emptyData, setEmptyData] = useState(false)
+    let totalPages;
+    if (context.filteredData.length > 0) {
+        totalPages = Math.ceil(context.filteredData.length / itemsPerPage);
+    } else {
+        totalPages = Math.ceil(paymentsData.length / itemsPerPage);
+    }
     const startIndex = (currPageNo - 1) * itemsPerPage;
-    const endIndex = Math.min(startIndex + itemsPerPage, rows.length);
-    const [currentPageData, setCurrentPageData] = useState(rows);
+    const endIndex = Math.min(startIndex + itemsPerPage, paymentsData.length);
+    const [currentPageData, setCurrentPageData] = useState(paymentsData);
+
+    useEffect(() => {
+        console.log(context.filteredData, "this is filtered data in payment")
+        if (context.filteredData.length > 0 && context.filteredData !== "empty") {
+            setEmptyData(false)
+            setCurrentPageData(context.filteredData)
+        } else if (context.filteredData === "empty" || context.paymentData.length === 0) {
+            setEmptyData(true)
+        }
+        else {
+            setEmptyData(false)
+            setCurrentPageData(context.paymentData)
+        }
+    }, [context])
+
+    useEffect(() => {
+        if (currentPageData.slice(startIndex, endIndex).length === 0 && currPageNo > 1) {
+            setCurrPageNo(currPageNo - 1);
+        } else if (currentPageData.slice(startIndex, endIndex).length === 0 && currPageNo === 1) {
+            setEmptyData(true);
+        }
+    }, [currentPageData, currPageNo, itemsPerPage, startIndex, endIndex,]);
 
     const handlePageChange = (value) => {
         setCurrPageNo(value);
@@ -46,12 +62,12 @@ export default function Payment() {
     };
 
     const sortName = () => {
-        const sortedData = sortByName(rows, 'asc')
+        const sortedData = sortByName(paymentsData, 'asc')
         setCurrentPageData(sortedData)
     }
 
     const sortDate = () => {
-        const sortedData = sortByDate(rows, 'asc')
+        const sortedData = sortByDate(paymentsData, 'asc')
         setCurrentPageData(sortedData)
     }
 
@@ -104,47 +120,61 @@ export default function Payment() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {currentPageData.slice(startIndex, endIndex).map((row, index) => (
-                                <TableRow
-                                    key={index}
-                                    sx={{ '&:last-child td, &:last-child th': { border: 0 }, backgroundColor: index % 2 === 0 ? "#FFFFFF" : "#F8F8F8" }}
-                                >
-                                    <TableCell sx={{ border: "none" }}>
-                                        <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
-                                            {row.name}
-                                        </CustomTypo>
-                                    </TableCell>
-                                    <TableCell align="left" sx={{ border: "none" }}>
-                                        <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
-                                            {row.paymentSchedule}
-                                        </CustomTypo>
-                                    </TableCell>
-                                    <TableCell align="left" sx={{ border: "none" }}>
-                                        <CustomTypo color="#000000" fontSize="14px" fontWeight="500" >
-                                            {row.billNumber}
-                                        </CustomTypo>
-                                    </TableCell>
-                                    <TableCell align="left" sx={{ border: "none" }}>
-                                        <CustomTypo color="#000000" fontSize="14px" fontWeight="500" >
-                                            {row.amountPaid}
-                                        </CustomTypo>
-                                    </TableCell>
-                                    <TableCell align="left" sx={{ border: "none" }}>
-                                        <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
-                                            {row.balanceAmount}
-                                        </CustomTypo>
-                                    </TableCell>
-                                    <TableCell align="left" sx={{ border: "none" }}>
-                                        <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
-                                            {row.date}
-                                        </CustomTypo>
+                            {
+                                emptyData ?
 
-                                    </TableCell>
-                                    <TableCell align="right" sx={{ border: "none" }}>
-                                        <img src={eye} alt='view' />
-                                    </TableCell>
-                                </TableRow>
-                            ))}
+                                    <TableRow>
+                                        <TableCell colSpan={7} rowSpan={7}>
+                                            <Box sx={{ backgroundColor: "#edabab", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                                <CustomTypo fontSize="40px" color="red" fontWeight="300" >No Data to Show!</CustomTypo>
+                                            </Box>
+                                        </TableCell>
+                                    </TableRow>
+                                    :
+
+                                    currentPageData.slice(startIndex, endIndex).map((row, index) => (
+                                        <TableRow
+                                            key={index}
+                                            sx={{ '&:last-child td, &:last-child th': { border: 0 }, backgroundColor: index % 2 === 0 ? "#FFFFFF" : "#F8F8F8" }}
+                                        >
+                                            <TableCell sx={{ border: "none" }}>
+                                                <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
+                                                    {row.name}
+                                                </CustomTypo>
+                                            </TableCell>
+                                            <TableCell align="left" sx={{ border: "none" }}>
+                                                <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
+                                                    {row.paymentSchedule}
+                                                </CustomTypo>
+                                            </TableCell>
+                                            <TableCell align="left" sx={{ border: "none" }}>
+                                                <CustomTypo color="#000000" fontSize="14px" fontWeight="500" >
+                                                    {row.billNumber}
+                                                </CustomTypo>
+                                            </TableCell>
+                                            <TableCell align="left" sx={{ border: "none" }}>
+                                                <CustomTypo color="#000000" fontSize="14px" fontWeight="500" >
+                                                    {row.amountPaid}
+                                                </CustomTypo>
+                                            </TableCell>
+                                            <TableCell align="left" sx={{ border: "none" }}>
+                                                <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
+                                                    {row.balanceAmount}
+                                                </CustomTypo>
+                                            </TableCell>
+                                            <TableCell align="left" sx={{ border: "none" }}>
+                                                <CustomTypo color="#000000" fontSize="14px" fontWeight="500">
+                                                    {row.date}
+                                                </CustomTypo>
+
+                                            </TableCell>
+                                            <TableCell align="right" sx={{ border: "none" }}>
+                                                <img src={eye} alt='view' />
+                                            </TableCell>
+                                        </TableRow>
+                                    ))
+
+                            }
                         </TableBody>
                     </Table>
                 </Box>
@@ -153,6 +183,7 @@ export default function Payment() {
                     <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
                         <CustomPagination
                             count={totalPages}
+                            page={currPageNo}
                             handlePageChange={handlePageChange}
                         />
                     </Box>
