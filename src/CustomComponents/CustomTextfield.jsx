@@ -31,7 +31,6 @@ const CustomTextfield = React.forwardRef(({ error, ...rest }, ref) => {
         FormHelperTextProps={{
           style: {
             color: "#F59184",
-            lineHeight: '1em',
           },
           ...rest
         }}

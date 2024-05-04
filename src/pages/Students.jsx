@@ -49,21 +49,19 @@ export default function Students({ studentData }) {
         )
     }
 
-    console.log(context.filteredData, "this is filtered Data")
-
     useEffect(() => {
-       
         if (context.filteredData.length > 0 && context.filteredData !== "empty") {
             setEmptyData(false)
             setCurrentPageData(context.filteredData)
-        } else if (context.filteredData === "empty") {
+        } else if (context.filteredData === "empty" || context.studentData.length === 0) {
             setEmptyData(true)
         }
         else {
             setEmptyData(false)
+            console.log("woring")
             setCurrentPageData(context.studentData)
         }
-    }, [context,currentPageData])
+    }, [context])
 
     useEffect(() => {
         if (currentPageData.slice(startIndex, endIndex).length === 0 && currPageNo > 1) {
