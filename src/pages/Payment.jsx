@@ -30,7 +30,6 @@ export default function Payment({ paymentData }) {
     const [currentPageData, setCurrentPageData] = useState(paymentsData);
 
     useEffect(() => {
-        console.log(context.filteredData, "this is filtered data in payment")
         if (context.filteredData.length > 0 && context.filteredData !== "empty") {
             setEmptyData(false)
             setCurrentPageData(context.filteredData)

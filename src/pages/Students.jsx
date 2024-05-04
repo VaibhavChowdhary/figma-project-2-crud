@@ -121,7 +121,6 @@ export default function Students({ studentData }) {
                         }
                     } catch (error) {
                         setValidationError(error.message.split(","))
-                        console.log(error.message)
                     }
                 }
                 return eachStudent;
