@@ -8,13 +8,15 @@ import paymentIcon from "../assets/paymentIcon.png"
 import reportIcon from "../assets/reportIcon.png"
 import settingIcon from "../assets/settingIcon.png"
 import LogoutIcon from '@mui/icons-material/Logout';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { SomeContext } from '../context/context';
 
 export default function Sidebar() {
     const [activeIndex, setActiveIndex] = useState(0)
     const name = "Vaibhav G C";
     const admin = "Admin";
+    const location = useLocation();
+    const currentURL = location.pathname;
     const navigate = useNavigate()
     const options = [
         { icon: homeIcon, text: 'Home', link: "home" },
